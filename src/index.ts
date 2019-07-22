@@ -11,7 +11,16 @@ class Mist {
     this.expect = expect;
   }
 
-  elementExists(elementName, searchIndex) {
+  /**
+   * Test if the element with a specified elementName exists, starting from the searchIndex
+   */
+  elementExists({
+    elementName,
+    startIndex,
+  }: {
+    elementName: string;
+    startIndex: number;
+  }) {
     this.test(
       'Make sure to create the opening ' +
         elementName +
@@ -19,7 +28,7 @@ class Mist {
         elementName +
         '>.',
       () => {
-        let openingTagIndex = this.code.indexOf('<' + elementName, searchIndex);
+        let openingTagIndex = this.code.indexOf('<' + elementName, startIndex);
         this.expect(openingTagIndex).toBeGreaterThan(0);
       },
     );
@@ -33,7 +42,7 @@ class Mist {
       () => {
         let closingTagIndex = this.code.indexOf(
           '</' + elementName + '>',
-          searchIndex,
+          startIndex,
         );
         this.expect(closingTagIndex).toBeGreaterThan(0);
       },
@@ -46,33 +55,28 @@ class Mist {
         elementName +
         '>.',
       () => {
-        let openingTagIndex = this.code.indexOf('<' + elementName, searchIndex);
+        let openingTagIndex = this.code.indexOf('<' + elementName, startIndex);
         let closingTagIndex = this.code.indexOf(
           '</' + elementName + '>',
-          searchIndex,
+          startIndex,
         );
         this.expect(closingTagIndex - openingTagIndex).toBeGreaterThan(0);
       },
     );
   }
 
-  getEndOfClosingTagIndexForElement(elementName, startIndex) {
-    let searchIndex = startIndex;
-    if (searchIndex === undefined) {
-      searchIndex = 0;
-    }
-
-    let closingTagIndex = this.code.indexOf(
-      '</' + elementName + '>',
-      startIndex,
-    );
-    return closingTagIndex + elementName.length;
-  }
-
-  emptyElementExists(elementName, startIndex) {
-    let searchIndex = startIndex;
-    if (searchIndex === undefined) {
-      searchIndex = 0;
+  /**
+   * Test if the element with a specified elementName exists and is empty, starting from the searchIndex
+   */
+  emptyElementExists({
+    elementName,
+    startIndex,
+  }: {
+    elementName: string;
+    startIndex: number;
+  }) {
+    if (startIndex === undefined) {
+      startIndex = 0;
     }
 
     this.test(
@@ -82,32 +86,38 @@ class Mist {
         elementName +
         '/>.',
       () => {
-        let openingTagIndex = this.code.indexOf('<' + elementName, searchIndex);
+        let openingTagIndex = this.code.indexOf('<' + elementName, startIndex);
         this.expect(openingTagIndex).toBeGreaterThan(0);
       },
     );
   }
 
-  firstElementIsInsideSecond(firstElement, secondElement) {
+  firstElementIsInsideSecond({
+    firstElementName,
+    secondElementName,
+  }: {
+    firstElementName: string;
+    secondElementName: string;
+  }) {
     this.test(
       'Make sure to place the <' +
-        firstElement +
+        firstElementName +
         '></' +
-        firstElement +
+        firstElementName +
         '> tags inside the <' +
-        secondElement +
+        secondElementName +
         '></' +
-        secondElement +
+        secondElementName +
         '> tags.',
       () => {
-        let outerElement = this.root.querySelector(secondElement);
-        let innerElement = outerElement.querySelectorAll(firstElement);
+        let outerElement = this.root.querySelector(secondElementName);
+        let innerElement = outerElement.querySelectorAll(firstElementName);
         this.expect(innerElement.length).toBeGreaterThan(0);
       },
     );
   }
 
-  elementTextIsSet(elementName, text) {
+  elementTextIsSet({ elementName, text }: { elementName:string; text:string }) {
     this.test(
       'Make sure to place text between the ' + elementName + ' tags.',
       () => {
@@ -160,11 +170,15 @@ class Mist {
     }
   }
 
-  elementAttributeSetToCorrectValue(
+  elementAttributeSetToCorrectValue({
     elementName,
     attributeName,
     attributeValue,
-  ) {
+  }: {
+    elementName;
+    attributeName;
+    attributeValue;
+  }) {
     this.test(
       'Make sure the <' +
         elementName +
@@ -187,6 +201,25 @@ class Mist {
         this.expect(isAttributeSet).toEqual(true);
       },
     );
+  }
+
+  getEndOfClosingTagIndexForElement({
+    elementName,
+    startIndex,
+  }: {
+    elementName: string;
+    startIndex: number;
+  }) {
+    let searchIndex = startIndex;
+    if (searchIndex === undefined) {
+      searchIndex = 0;
+    }
+
+    let closingTagIndex = this.code.indexOf(
+      '</' + elementName + '>',
+      startIndex,
+    );
+    return closingTagIndex + elementName.length;
   }
 }
 export = Mist;
