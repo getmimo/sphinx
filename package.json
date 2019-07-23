@@ -10,6 +10,9 @@
     "tsc": "tsc",
     "build": "tsc"
   },
+  "files": [
+    "/dist"
+  ],
   "author": "Thomas Sattlecker",
   "license": "ISC",
   "dependencies": {
