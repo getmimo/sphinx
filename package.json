@@ -5,9 +5,9 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
+    "install": "tsc",
     "test": "tsc && jest",
-    "tsc": "tsc",
-    "build": "tsc"
+    "tsc": "tsc"
   },
   "author": "Thomas Sattlecker",
   "license": "ISC",
