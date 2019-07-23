@@ -7,6 +7,7 @@
   "scripts": {
     "install": "tsc",
     "test": "tsc && jest",
+    "test-watch": "tsc && jest --watch",
     "tsc": "tsc"
   },
   "author": "Thomas Sattlecker",
@@ -15,6 +16,7 @@
     "sphinx": "github:getmimo/sphinx"
   },
   "devDependencies": {
+    "@types/node": "^12.6.8",
     "jest": "^24.8.0",
     "node-html-parser": "^1.1.16",
     "typescript": "^3.5.3"

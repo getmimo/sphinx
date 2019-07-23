@@ -1,4 +1,4 @@
-class Mist {
+class Sphinx {
   private code: string;
   private root: any;
   private test: any;
@@ -117,7 +117,13 @@ class Mist {
     );
   }
 
-  elementTextIsSet({ elementName, text }: { elementName:string; text:string }) {
+  elementTextIsSet({
+    elementName,
+    text,
+  }: {
+    elementName: string;
+    text: string;
+  }) {
     this.test(
       'Make sure to place text between the ' + elementName + ' tags.',
       () => {
@@ -222,4 +228,9 @@ class Mist {
     return closingTagIndex + elementName.length;
   }
 }
-export = Mist;
+
+function buildSphinx(root: any, htmlCode: string, test: any, expect: any) {
+  return new Sphinx(root, htmlCode, test, expect);
+}
+
+module.exports.buildSphinx = buildSphinx;

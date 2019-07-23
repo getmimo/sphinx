@@ -2,62 +2,69 @@ let fs = require('fs');
 let htmlCode = fs.readFileSync('src/examples/index.html', 'utf8');
 let HTMLParser = require('node-html-parser');
 let root = HTMLParser.parse(htmlCode);
-let mist = new (require('sphinx'))(root, htmlCode, test, expect);
+// NOTE: FOR LOCAL TESTING
+// let sphinx = require('../../dist/index.js').buildSphinx(
+//   root,
+//   htmlCode,
+//   test,
+//   expect,
+// );
+let sphinx = require('sphinx').buildSphinx(root, htmlCode, test, expect);
 
-test('Make sure to start your code with: <!doctype html>.', () => {
+sphinx.test('Make sure to start your code with: <!doctype html>.', () => {
   openingTagIndex = htmlCode.indexOf('<!doctype html>');
   expect(openingTagIndex).toEqual(0);
 });
 
-mist.elementExists({ elementName: 'html' });
-mist.elementExists({ elementName: 'body' });
-mist.elementExists({ elementName: 'script' });
-mist.elementExists({ elementName: 'h1' });
-mist.elementExists({ elementName: 'p' });
+sphinx.elementExists({ elementName: 'html' });
+sphinx.elementExists({ elementName: 'body' });
+sphinx.elementExists({ elementName: 'script' });
+sphinx.elementExists({ elementName: 'h1' });
+sphinx.elementExists({ elementName: 'p' });
 
-let firstPClosingTagIndex = mist.getEndOfClosingTagIndexForElement({
+let firstPClosingTagIndex = sphinx.getEndOfClosingTagIndexForElement({
   elementName: 'p',
 });
-mist.elementExists({ elementName: 'p', searchIndex: firstPClosingTagIndex });
+sphinx.elementExists({ elementName: 'p', searchIndex: firstPClosingTagIndex });
 
-mist.emptyElementExists({ elementName: 'img' });
+sphinx.emptyElementExists({ elementName: 'img' });
 
-mist.firstElementIsInsideSecond({
+sphinx.firstElementIsInsideSecond({
   firstElementName: 'body',
   secondElementName: 'html',
 });
-mist.firstElementIsInsideSecond({
+sphinx.firstElementIsInsideSecond({
   firstElementName: 'script',
   secondElementName: 'body',
 });
-mist.firstElementIsInsideSecond({
+sphinx.firstElementIsInsideSecond({
   firstElementName: 'h1',
   secondElementName: 'body',
 });
-mist.firstElementIsInsideSecond({
+sphinx.firstElementIsInsideSecond({
   firstElementName: 'p',
   secondElementName: 'body',
 });
-mist.firstElementIsInsideSecond({
+sphinx.firstElementIsInsideSecond({
   firstElementName: 'h1',
   secondElementName: 'body',
 });
-mist.firstElementIsInsideSecond({
+sphinx.firstElementIsInsideSecond({
   firstElementName: 'em',
   secondElementName: 'p',
 });
 
-mist.elementTextIsSet({ elementName: 'h1' });
-mist.elementTextIsSet({ elementName: 'p' });
-mist.elementTextIsSet({ elementName: 'em' });
-mist.elementTextIsSet({ elementName: 'p', text: '3 votes' });
+sphinx.elementTextIsSet({ elementName: 'h1' });
+sphinx.elementTextIsSet({ elementName: 'p' });
+sphinx.elementTextIsSet({ elementName: 'em' });
+sphinx.elementTextIsSet({ elementName: 'p', text: '3 votes' });
 
-mist.elementAttributeSetToCorrectValue({
+sphinx.elementAttributeSetToCorrectValue({
   elementName: 'script',
   attributeName: 'src',
   attributeValue: 'script.js',
 });
-mist.elementAttributeSetToCorrectValue({
+sphinx.elementAttributeSetToCorrectValue({
   elementName: 'img',
   attributeName: 'src',
   attributeValue: 'https://mimo.app/r/panda.png',
