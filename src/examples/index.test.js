@@ -2,7 +2,7 @@ let fs = require('fs');
 let htmlCode = fs.readFileSync('src/examples/index.html', 'utf8');
 let HTMLParser = require('node-html-parser');
 let root = HTMLParser.parse(htmlCode);
-let mist = new (require('../index.js'))(root, htmlCode, test, expect);
+let mist = new (require('sphinx'))(root, htmlCode, test, expect);
 
 test('Make sure to start your code with: <!doctype html>.', () => {
   openingTagIndex = htmlCode.indexOf('<!doctype html>');
