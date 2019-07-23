@@ -11,6 +11,12 @@
     "tsc": "tsc"
   },
   "author": "Thomas Sattlecker",
+  "contributors": [
+    {
+      "name": "Christopher Simerle",
+      "email": "christopher@getmimo.com"
+    }
+  ],
   "license": "ISC",
   "dependencies": {
     "sphinx": "github:getmimo/sphinx"

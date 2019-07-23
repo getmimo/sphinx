@@ -1,13 +1,14 @@
 <img src="https://image.flaticon.com/icons/svg/190/190472.svg" alt="sphinx_icon" width="150"/>
 
-# Sphinx 
+# Sphinx
+
 Sphinx is a delightful JavaScript Testing Library with a focus on simplicity.
 
 # Installation
 
 For now we provide the library only directly via GitHub install.
 
-```npm install github:getmimo/sphinx```
+`npm install github:getmimo/sphinx`
 
 ```json
 "dependencies": {
@@ -16,6 +17,7 @@ For now we provide the library only directly via GitHub install.
 ```
 
 # Usage
+
 Simply require the builder function and build your own personal Sphinx
 
 ```javascript
@@ -57,3 +59,9 @@ sphinx.firstElementIsInsideSecond({
   secondElementName: 'body',
 });
 ```
+
+# Authors
+
+Thomas Sattlecker ([@ThomasS09](https://twitter.com/ThomasS09)) - [Mimo](https://getmimo.com)
+
+Christopher Simerle ([@simerle_c](https://twitter.com/simerle_c)) - [Mimo](https://getmimo.com)
