@@ -19,10 +19,10 @@
   ],
   "license": "ISC",
   "dependencies": {
+    "@types/node": "^12.6.8",
     "sphinx": "github:getmimo/sphinx"
   },
   "devDependencies": {
-    "@types/node": "^12.6.8",
     "jest": "^24.8.0",
     "node-html-parser": "^1.1.16",
     "typescript": "^3.5.3"
