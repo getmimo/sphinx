@@ -2,14 +2,12 @@ let fs = require('fs');
 let htmlCode = fs.readFileSync('src/examples/index.html', 'utf8');
 let HTMLParser = require('node-html-parser');
 let root = HTMLParser.parse(htmlCode);
-// NOTE: FOR LOCAL TESTING
-// let sphinx = require('../../dist/index.js').buildSphinx(
-//   root,
-//   htmlCode,
-//   test,
-//   expect,
-// );
-let sphinx = require('sphinx').buildSphinx(root, htmlCode, test, expect);
+let sphinx = require('../../dist/index.js').buildSphinx(
+  root,
+  htmlCode,
+  test,
+  expect,
+);
 
 sphinx.test('Make sure to start your code with: <!doctype html>.', () => {
   openingTagIndex = htmlCode.indexOf('<!doctype html>');
