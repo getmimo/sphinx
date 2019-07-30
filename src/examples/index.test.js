@@ -10,7 +10,7 @@ let sphinx = require('../../dist/index.js').buildSphinx(
 );
 
 sphinx.test('Make sure to start your code with: <!doctype html>.', () => {
-  openingTagIndex = htmlCode.indexOf('<!doctype html>');
+  openingTagIndex = htmlCode.indexOf('<!DOCTYPE html>');
   expect(openingTagIndex).toEqual(0);
 });
 

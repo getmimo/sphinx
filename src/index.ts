@@ -75,10 +75,6 @@ class Sphinx {
     elementName: string;
     startIndex: number;
   }) {
-    if (startIndex === undefined) {
-      startIndex = 0;
-    }
-
     this.test(
       'Make sure to create the ' +
         elementName +
@@ -129,17 +125,7 @@ class Sphinx {
       () => {
         let tag = this.root.querySelector(elementName);
         this.expect(tag.text.trim().length).toBeGreaterThan(0);
-
-        let elements = this.root.querySelectorAll(elementName);
-        let isTextSet = false;
-
-        for (var index = 0; index < elements.length; index++) {
-          if (elements[index].text.trim().length > 0) {
-            isTextSet = true;
-          }
-        }
-
-        this.expect(isTextSet).toEqual(true);
+        this.expect(isTextSet(this.root, elementName)).toEqual(true);
       },
     );
 
@@ -157,20 +143,7 @@ class Sphinx {
         () => {
           let tag = this.root.querySelector(elementName);
           this.expect(tag.text.trim().length).toBeGreaterThan(0);
-
-          let elements = this.root.querySelectorAll(elementName);
-          let isTextSimilar = false;
-
-          for (var index = 0; index < elements.length; index++) {
-            if (
-              elements[index].text.trim().toLowerCase() ===
-              text.trim().toLowerCase()
-            ) {
-              isTextSimilar = true;
-            }
-          }
-
-          this.expect(isTextSimilar).toEqual(true);
+          this.expect(isTextEqual(this.root, elementName, text)).toEqual(true);
         },
       );
     }
@@ -194,17 +167,9 @@ class Sphinx {
         attributeValue +
         '".',
       () => {
-        let elements = this.root.querySelectorAll(elementName);
-        let isAttributeSet = false;
-
-        for (var index = 0; index < elements.length; index++) {
-          let attribute = elements[index].attributes[attributeName];
-          if (attribute !== undefined && attribute.trim() === attributeValue) {
-            isAttributeSet = true;
-          }
-        }
-
-        this.expect(isAttributeSet).toEqual(true);
+        this.expect(
+          isAttributeSet(this.root, elementName, attributeName, attributeValue),
+        ).toEqual(true);
       },
     );
   }
@@ -229,8 +194,54 @@ class Sphinx {
   }
 }
 
+function isTextSet(root, elementName) {
+  let elements = root.querySelectorAll(elementName);
+  let isTextSet = false;
+
+  for (var index = 0; index < elements.length; index++) {
+    if (elements[index].text.trim().length > 0) {
+      isTextSet = true;
+    }
+  }
+
+  return isTextSet;
+}
+
+function isTextEqual(root, elementName, text) {
+  let elements = root.querySelectorAll(elementName);
+  let isTextEqual = false;
+
+  for (var index = 0; index < elements.length; index++) {
+    if (
+      elements[index].text.trim().toLowerCase() === text.trim().toLowerCase()
+    ) {
+      isTextEqual = true;
+    }
+  }
+
+  return isTextEqual;
+}
+
+function isAttributeSet(root, elementName, attributeName, attributeValue) {
+  let elements = root.querySelectorAll(elementName);
+  let isAttributeSet = false;
+  for (var index = 0; index < elements.length; index++) {
+    let attribute = elements[index].attributes[attributeName];
+    if (attribute !== undefined && attribute.trim() === attributeValue) {
+      isAttributeSet = true;
+    }
+  }
+
+  return isAttributeSet;
+}
+
 function buildSphinx(root: any, htmlCode: string, test: any, expect: any) {
   return new Sphinx(root, htmlCode, test, expect);
 }
 
-module.exports.buildSphinx = buildSphinx;
+module.exports = {
+  buildSphinx: buildSphinx,
+  isTextSet: isTextSet,
+  isTextEqual: isTextEqual,
+  isAttributeSet: isAttributeSet,
+};

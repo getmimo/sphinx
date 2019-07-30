@@ -36,4 +36,7 @@ declare class Sphinx {
         startIndex: number;
     }): number;
 }
+declare function isTextSet(root: any, elementName: any): boolean;
+declare function isTextEqual(root: any, elementName: any, text: any): boolean;
+declare function isAttributeSet(root: any, elementName: any, attributeName: any, attributeValue: any): boolean;
 declare function buildSphinx(root: any, htmlCode: string, test: any, expect: any): Sphinx;
