@@ -93,14 +93,6 @@ class Sphinx {
             ' attribute set to "' +
             attributeValue +
             '".', () => {
-            // let elements = this.root.querySelectorAll(elementName);
-            // let isAttributeSet = false;
-            // for (var index = 0; index < elements.length; index++) {
-            //   let attribute = elements[index].attributes[attributeName];
-            //   if (attribute !== undefined && attribute.trim() === attributeValue) {
-            //     isAttributeSet = true;
-            //   }
-            // }
             this.expect(isAttributeSet(this.root, elementName, attributeName, attributeValue)).toEqual(true);
         });
     }
