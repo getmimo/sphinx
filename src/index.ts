@@ -1,3 +1,5 @@
+var cowsay = require('cowsay');
+
 class Sphinx {
   private code: string;
   private root: any;
@@ -9,6 +11,14 @@ class Sphinx {
     this.root = root;
     this.test = test;
     this.expect = expect;
+
+    console.log(
+      cowsay.say({
+        text: "I'm a moooodule",
+        e: 'oO',
+        T: 'U ',
+      }),
+    );
   }
 
   /**
