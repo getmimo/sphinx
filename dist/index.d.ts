@@ -1,4 +1,3 @@
-declare var cowsay: any;
 declare class Sphinx {
     private code;
     private root;

@@ -1,15 +1,9 @@
-var cowsay = require('cowsay');
 class Sphinx {
     constructor(root, code, test, expect) {
         this.code = code;
         this.root = root;
         this.test = test;
         this.expect = expect;
-        console.log(cowsay.say({
-            text: "I'm a moooodule",
-            e: 'oO',
-            T: 'U ',
-        }));
     }
     /**
      * Test if the element with a specified elementName exists, starting from the searchIndex
