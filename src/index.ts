@@ -49,7 +49,7 @@ class Sphinx {
     );
 
     this.test(
-      'Make sure to put the opening and closing tags in their correct place: <' +
+      'Make sure to put the opening and closing tags in their correct places: <' +
         elementName +
         '></' +
         elementName +
