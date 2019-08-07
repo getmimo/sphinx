@@ -25,7 +25,7 @@ class Sphinx {
             let closingTagIndex = this.code.indexOf('</' + elementName + '>', startIndex);
             this.expect(closingTagIndex).toBeGreaterThan(0);
         });
-        this.test('Make sure to put the opening and closing tags in their correct place: <' +
+        this.test('Make sure to put the opening and closing tags in their correct places: <' +
             elementName +
             '></' +
             elementName +
