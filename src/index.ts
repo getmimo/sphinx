@@ -1,3 +1,5 @@
+const $ = require('jquery');
+
 class Sphinx {
   private code: string;
   private root: any;
@@ -174,6 +176,25 @@ class Sphinx {
     );
   }
 
+  elementCSSPropertySet({
+    elementSelector,
+    propertyName,
+    propertyValue,
+  }: {
+    elementSelector: string;
+    propertyName: string;
+    propertyValue: string;
+  }) {
+    this.test(
+      `Make sure the '${propertyName}' property is set to '${propertyValue}' for the correct element`,
+      () => {
+        let element = $(elementSelector);
+        this.expect(element.length).toBe(1);
+        this.expect($(element).css(propertyName)).toBe(propertyValue);
+      },
+    );
+  }
+
   getEndOfClosingTagIndexForElement({
     elementName,
     startIndex,
@@ -239,8 +260,13 @@ function buildSphinx(root: any, htmlCode: string, test: any, expect: any) {
   return new Sphinx(root, htmlCode, test, expect);
 }
 
+function buildSphinxWithJSDOM(test: any, expect: any) {
+  return new Sphinx(undefined, undefined, test, expect);
+}
+
 module.exports = {
   buildSphinx: buildSphinx,
+  buildSphinxWithJSDOM: buildSphinxWithJSDOM,
   isTextSet: isTextSet,
   isTextEqual: isTextEqual,
   isAttributeSet: isAttributeSet,

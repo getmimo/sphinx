@@ -1,3 +1,4 @@
+const $ = require('jquery');
 class Sphinx {
     constructor(root, code, test, expect) {
         this.code = code;
@@ -96,6 +97,13 @@ class Sphinx {
             this.expect(isAttributeSet(this.root, elementName, attributeName, attributeValue)).toEqual(true);
         });
     }
+    elementCSSPropertySet({ elementSelector, propertyName, propertyValue, }) {
+        this.test(`Make sure the '${propertyName}' property is set to '${propertyValue}' for the correct element`, () => {
+            let element = $(elementSelector);
+            this.expect(element.length).toBe(1);
+            this.expect($(element).css(propertyName)).toBe(propertyValue);
+        });
+    }
     getEndOfClosingTagIndexForElement({ elementName, startIndex, }) {
         let searchIndex = startIndex;
         if (searchIndex === undefined) {
@@ -139,8 +147,12 @@ function isAttributeSet(root, elementName, attributeName, attributeValue) {
 function buildSphinx(root, htmlCode, test, expect) {
     return new Sphinx(root, htmlCode, test, expect);
 }
+function buildSphinxWithJSDOM(test, expect) {
+    return new Sphinx(undefined, undefined, test, expect);
+}
 module.exports = {
     buildSphinx: buildSphinx,
+    buildSphinxWithJSDOM: buildSphinxWithJSDOM,
     isTextSet: isTextSet,
     isTextEqual: isTextEqual,
     isAttributeSet: isAttributeSet,

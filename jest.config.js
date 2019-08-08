@@ -144,6 +144,8 @@ module.exports = {
     '**/spec/**/?(*.)+(spec|test).[tj]s?(x)',
   ],
 
+  testURL: 'http://localhost/',
+
   // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
   // testPathIgnorePatterns: [
   //   "/node_modules/"

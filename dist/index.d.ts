@@ -1,3 +1,4 @@
+declare const $: any;
 declare class Sphinx {
     private code;
     private root;
@@ -31,6 +32,11 @@ declare class Sphinx {
         attributeName: any;
         attributeValue: any;
     }): void;
+    elementCSSPropertySet({ elementSelector, propertyName, propertyValue, }: {
+        elementSelector: string;
+        propertyName: string;
+        propertyValue: string;
+    }): void;
     getEndOfClosingTagIndexForElement({ elementName, startIndex, }: {
         elementName: string;
         startIndex: number;
@@ -40,3 +46,4 @@ declare function isTextSet(root: any, elementName: any): boolean;
 declare function isTextEqual(root: any, elementName: any, text: any): boolean;
 declare function isAttributeSet(root: any, elementName: any, attributeName: any, attributeValue: any): boolean;
 declare function buildSphinx(root: any, htmlCode: string, test: any, expect: any): Sphinx;
+declare function buildSphinxWithJSDOM(test: any, expect: any): Sphinx;
