@@ -1,7 +1,8 @@
 {
-  "name": "sphinx",
+  "name": "@getmimo/sphinx",
   "version": "0.0.1",
   "description": "A library of testing functions which can be used in jest to validate various html, javascript or css files",
+  "repository": "git://github.com/getmimo/sphinx.git",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
