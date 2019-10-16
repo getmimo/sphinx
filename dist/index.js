@@ -10,23 +10,25 @@ class Sphinx {
      * Test if the element with a specified elementName exists, starting from the searchIndex
      */
     elementExists({ elementName, startIndex, }) {
-        this.test('Make sure to create the opening ' +
+        this.test('Make sure there\'s an opening ' +
             elementName +
-            ' tag with: <' +
+            ' tag, <' +
             elementName +
             '>.', () => {
             let openingTagIndex = this.code.indexOf('<' + elementName, startIndex);
             this.expect(openingTagIndex).toBeGreaterThan(0);
         });
-        this.test('Make sure to create the closing ' +
+        this.test('Make sure there\'s a closing ' +
             elementName +
-            ' tag with: </' +
+            ' tag, </' +
             elementName +
             '>.', () => {
             let closingTagIndex = this.code.indexOf('</' + elementName + '>', startIndex);
             this.expect(closingTagIndex).toBeGreaterThan(0);
         });
-        this.test('Make sure to put the opening and closing tags in their correct places: <' +
+        this.test('Make sure there are opening and closing ' +
+            elementName +
+            ' tags, <' +
             elementName +
             '></' +
             elementName +
@@ -40,25 +42,21 @@ class Sphinx {
      * Test if the element with a specified elementName exists and is empty, starting from the searchIndex
      */
     emptyElementExists({ elementName, startIndex, }) {
-        this.test('Make sure to create the ' +
+        this.test('Make there\'s an opening ' +
             elementName +
-            ' tag with: <' +
+            ' tag, <' +
             elementName +
-            '/>.', () => {
+            '>.', () => {
             let openingTagIndex = this.code.indexOf('<' + elementName, startIndex);
             this.expect(openingTagIndex).toBeGreaterThan(0);
         });
     }
     firstElementIsInsideSecond({ firstElementName, secondElementName, }) {
-        this.test('Make sure to place the <' +
+        this.test('Make sure the ' +
             firstElementName +
-            '></' +
-            firstElementName +
-            '> tags inside the <' +
+            ' is inside the ' +
             secondElementName +
-            '></' +
-            secondElementName +
-            '> tags.', () => {
+            ' element.', () => {
             let outerElement = this.root.querySelector(secondElementName);
             let innerElement = outerElement.querySelectorAll(firstElementName);
             this.expect(innerElement.length).toBeGreaterThan(0);
@@ -71,15 +69,11 @@ class Sphinx {
             this.expect(isTextSet(this.root, elementName)).toEqual(true);
         });
         if (text !== undefined) {
-            this.test('Make sure to place the correct text between the ' +
-                elementName +
-                ' tags: <' +
-                elementName +
-                '>' +
+            this.test('Make sure to place ' +
                 text +
-                '</' +
+                ' inside the ' +
                 elementName +
-                '>.', () => {
+                ' element.', () => {
                 let tag = this.root.querySelector(elementName);
                 this.expect(tag.text.trim().length).toBeGreaterThan(0);
                 this.expect(isTextEqual(this.root, elementName, text)).toEqual(true);
@@ -87,18 +81,18 @@ class Sphinx {
         }
     }
     elementAttributeSetToCorrectValue({ elementName, attributeName, attributeValue, }) {
-        this.test('Make sure the <' +
+        this.test('Make sure the opening ' +
             elementName +
-            '> tag contains the ' +
+            ' tag contains a ' +
             attributeName +
-            ' attribute set to "' +
+            ' attribute with the value "' +
             attributeValue +
             '".', () => {
             this.expect(isAttributeSet(this.root, elementName, attributeName, attributeValue)).toEqual(true);
         });
     }
     elementCSSPropertySet({ elementSelector, propertyName, propertyValue, }) {
-        this.test(`Make sure the '${propertyName}' property is set to '${propertyValue}' for the correct element`, () => {
+        this.test(`Make sure to set the '${propertyName}' property to '${propertyValue}' for the '${elementSelector} selector.'`, () => {
             let element = $(elementSelector);
             this.expect(element.length).toBe(1);
             this.expect($(element).css(propertyName)).toBe(propertyValue);

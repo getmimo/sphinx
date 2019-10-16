@@ -24,9 +24,9 @@ class Sphinx {
     startIndex: number;
   }) {
     this.test(
-      'Make sure to create the opening ' +
+      'Make sure there\'s an opening ' +
         elementName +
-        ' tag with: <' +
+        ' tag, <' +
         elementName +
         '>.',
       () => {
@@ -36,9 +36,9 @@ class Sphinx {
     );
 
     this.test(
-      'Make sure to create the closing ' +
+      'Make sure there\'s a closing ' +
         elementName +
-        ' tag with: </' +
+        ' tag, </' +
         elementName +
         '>.',
       () => {
@@ -51,7 +51,9 @@ class Sphinx {
     );
 
     this.test(
-      'Make sure to put the opening and closing tags in their correct places: <' +
+      'Make sure there are opening and closing '+
+      elementName + 
+      ' tags, <' +
         elementName +
         '></' +
         elementName +
@@ -78,11 +80,11 @@ class Sphinx {
     startIndex: number;
   }) {
     this.test(
-      'Make sure to create the ' +
+      'Make there\'s an opening ' +
         elementName +
-        ' tag with: <' +
+        ' tag, <' +
         elementName +
-        '/>.',
+        '>.',
       () => {
         let openingTagIndex = this.code.indexOf('<' + elementName, startIndex);
         this.expect(openingTagIndex).toBeGreaterThan(0);
@@ -98,16 +100,11 @@ class Sphinx {
     secondElementName: string;
   }) {
     this.test(
-      'Make sure to place the <' +
+      'Make sure the ' +
         firstElementName +
-        '></' +
-        firstElementName +
-        '> tags inside the <' +
+        ' is inside the ' +
         secondElementName +
-        '></' +
-        secondElementName +
-        '> tags.',
-      () => {
+        ' element.',() => {
         let outerElement = this.root.querySelector(secondElementName);
         let innerElement = outerElement.querySelectorAll(firstElementName);
         this.expect(innerElement.length).toBeGreaterThan(0);
@@ -133,16 +130,11 @@ class Sphinx {
 
     if (text !== undefined) {
       this.test(
-        'Make sure to place the correct text between the ' +
-          elementName +
-          ' tags: <' +
-          elementName +
-          '>' +
+        'Make sure to place ' +
           text +
-          '</' +
+          ' inside the ' +
           elementName +
-          '>.',
-        () => {
+          ' element.',() => {
           let tag = this.root.querySelector(elementName);
           this.expect(tag.text.trim().length).toBeGreaterThan(0);
           this.expect(isTextEqual(this.root, elementName, text)).toEqual(true);
@@ -161,11 +153,11 @@ class Sphinx {
     attributeValue;
   }) {
     this.test(
-      'Make sure the <' +
+      'Make sure the opening ' +
         elementName +
-        '> tag contains the ' +
+        ' tag contains a ' +
         attributeName +
-        ' attribute set to "' +
+        ' attribute with the value "' +
         attributeValue +
         '".',
       () => {
@@ -186,7 +178,7 @@ class Sphinx {
     propertyValue: string;
   }) {
     this.test(
-      `Make sure the '${propertyName}' property is set to '${propertyValue}' for the correct element`,
+      `Make sure to set the '${propertyName}' property to '${propertyValue}' for the '${elementSelector} selector.'`,
       () => {
         let element = $(elementSelector);
         this.expect(element.length).toBe(1);

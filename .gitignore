@@ -3,3 +3,4 @@ src/index.js.map
 node_modules/
 
 .vscode
+.DS_Store

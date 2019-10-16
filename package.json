@@ -8,7 +8,8 @@
   "scripts": {
     "test": "tsc && jest",
     "test-watch": "tsc && jest --watch",
-    "build": "tsc"
+    "build": "tsc",
+    "test-verbose": "tsc && jest --verbose"
   },
   "author": "Thomas Sattlecker",
   "contributors": [
