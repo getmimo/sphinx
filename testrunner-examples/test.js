@@ -17,7 +17,6 @@ tyrion.group('playing with the beforeAll function', () => {
   global.$ = $; // make availble to other files if necessary
   tyrion.check(null, 'Above 0', 'some test', t => {
     let doneElems = $('#votes');
-    xdescribe.asdfi.efjsf;
     if (doneElems.length <= 0) {
       throw Error(doneElems.length);
     }

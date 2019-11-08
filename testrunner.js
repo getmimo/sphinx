@@ -30,13 +30,9 @@ const check = (input, expected, title, cb) => {
   runEveryBeforeEach();
   try {
     let result = cb(input, expected);
-    summary.success.push(
-      JSON.stringify({ title, expected, input, output: result }),
-    );
+    summary.success.push({ title, expected, input, output: result });
   } catch (e) {
-    summary.fail.push(
-      JSON.stringify({ title, expected, input, output: e.message }),
-    );
+    summary.fail.push({ title, expected, input, output: e.message });
   }
 };
 
