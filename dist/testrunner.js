@@ -1,6 +1,5 @@
 'use strict';
 
-const matchers = require('./matchers');
 const tyrion = {
   SILENT: false,
 };
