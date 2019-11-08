@@ -8,6 +8,7 @@
   "scripts": {
     "test": "jest",
     "test-watch": "tsc && jest --watch",
+    "test-testrunner-example": "node ./testrunner-examples/test.js",
     "build": "tsc && cp testrunner.js dist/testrunner.js",
     "test-verbose": "tsc && jest --verbose"
   },
@@ -26,6 +27,8 @@
     "@types/node": "^12.6.9",
     "husky": "^3.0.1",
     "jest": "22.4.4",
+    "jsdom": "^15.2.1",
+    "jsdom-global": "^3.0.2",
     "node-html-parser": "^1.1.16",
     "typescript": "^3.5.3"
   },

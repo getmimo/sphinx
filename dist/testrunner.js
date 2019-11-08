@@ -13,7 +13,7 @@ const runEveryBeforeEach = () => {
 const log = str => console.log(str);
 
 // Keeps some counters used to print the summary after the execution of a test suite is completed
-const summary = { success: 0, fail: 0, disabled: 0 };
+const summary = { success: [], fail: [], disabled: [] };
 
 // The stack of beforeEach callbacks
 const beforeEachStack = [[]];
@@ -26,14 +26,17 @@ const group = (title, cb) => {
 };
 
 // Declares a test unit
-const check = (title, cb) => {
+const check = (input, expected, title, cb) => {
   runEveryBeforeEach();
   try {
-    cb();
-    summary.success++;
+    let result = cb(input, expected);
+    summary.success.push(
+      JSON.stringify({ title, expected, input, output: result }),
+    );
   } catch (e) {
-    log(e.stack);
-    summary.fail++;
+    summary.fail.push(
+      JSON.stringify({ title, expected, input, output: e.message }),
+    );
   }
 };
 
@@ -44,10 +47,7 @@ const xcheck = (title, cb) => {
 
 // Prints the test summary and finishes the process with the appropriate exit code
 const end = () => {
-  log('Test summary:\n');
-  log(`  Success: ${summary.success}`);
-  log(`  Fail: ${summary.fail}`);
-  log(`  Disabled: ${summary.disabled}\n\n`);
+  log(`${JSON.stringify(summary)}`);
 
   if (summary.fail > 0) process.exit(1);
   process.exit(0);
