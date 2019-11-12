@@ -1,4 +1,5 @@
 'use strict';
+const deepEqual = require('deep-equal');
 
 // The stack of beforeEach callbacks
 const beforeEachStack = [[]];
@@ -49,7 +50,7 @@ const end = () => {
 const isEqual = (actual, expected) => {
   tempResult.actual = actual;
   tempResult.expected = expected;
-  if (actual !== expected) {
+  if (!deepEqual(actual, expected)) {
     throw Error(actual);
   }
   return actual;
