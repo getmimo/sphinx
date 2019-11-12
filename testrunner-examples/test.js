@@ -1,26 +1,16 @@
-const tyrion = require('../testrunner');
+const { test, isEqual, end } = require('../testrunner');
+var rewire = require('rewire');
 
-const jquery = require('jquery');
-let fs = require('fs');
-let userCode = fs.readFileSync('./testrunner-examples/index.html', 'utf8');
-let userCss = fs.readFileSync('./testrunner-examples/styles.css', 'utf8');
+let jsCode = rewire('./script.js');
+add2 = jsCode.__get__('add2');
 
-this.jsdom = require('jsdom-global')();
-
-document.body.innerHTML = userCode;
-const style = document.createElement('style');
-style.innerHTML = userCss;
-document.body.appendChild(style);
-
-tyrion.group('playing with the beforeAll function', () => {
-  let $ = jquery(window);
-  global.$ = $; // make availble to other files if necessary
-  tyrion.check(null, 'Above 0', 'some test', t => {
-    let doneElems = $('#votes');
-    if (doneElems.length <= 0) {
-      throw Error(doneElems.length);
-    }
-    return doneElems.length;
-  });
-  tyrion.end();
+test(2, '2 + 2 = 4', input => {
+  let result = add2(input);
+  isEqual(result, 4);
 });
+
+test(4, '4 + 2 = 6', input => {
+  let result = add2(input);
+  isEqual(result, 6);
+});
+end();

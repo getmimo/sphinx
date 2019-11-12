@@ -1,70 +1,64 @@
 'use strict';
 
-const tyrion = {
-  SILENT: false,
-};
-
+// The stack of beforeEach callbacks
+const beforeEachStack = [[]];
 // Runs every beforeEach callback in the stack
 const runEveryBeforeEach = () => {
   beforeEachStack.forEach(level => level.forEach(cb => cb()));
 };
-
-// Logs a string to the console
-const log = str => console.log(str);
-
-// Keeps some counters used to print the summary after the execution of a test suite is completed
-const summary = { success: [], fail: [], disabled: [] };
-
-// The stack of beforeEach callbacks
-const beforeEachStack = [[]];
-
-// Declares a testing group
-const group = (title, cb) => {
-  beforeEachStack.push([]);
-  cb();
-  beforeEachStack.pop();
-};
-
-// Declares a test unit
-const check = (input, expected, title, cb) => {
-  runEveryBeforeEach();
-  try {
-    let result = cb(input, expected);
-    summary.success.push({ title, expected, input, output: result });
-  } catch (e) {
-    summary.fail.push({ title, expected, input, output: e.message });
-  }
-};
-
-// Disables a test unit
-const xcheck = (title, cb) => {
-  summary.disabled++;
-};
-
-// Prints the test summary and finishes the process with the appropriate exit code
-const end = () => {
-  log(`${JSON.stringify(summary)}`);
-
-  if (summary.fail > 0) process.exit(1);
-  process.exit(0);
-};
-
-// A dead simple (and not human-proof) implementation of the beforeAll function
-const beforeAll = cb => cb();
-
-// A simple and functional beforeEach implementation
 const beforeEach = cb => {
   beforeEachStack[beforeEachStack.length - 1].push(cb);
 };
 
-// Exports Tyrion's DSL
-const dsl = {
-  check,
-  xcheck,
-  end,
-  group,
-  beforeEach,
-  beforeAll,
-  summary,
+// Keeps some counters used to print the summary after the execution of a test suite is completed
+const summary = { success: true, testResults: [] };
+let tempResult = {};
+
+// Declares a test unit
+const test = (input, title, cb) => {
+  runEveryBeforeEach();
+  tempResult.input = input;
+  try {
+    cb(input);
+    summary.testResults.push({
+      title,
+      passed: true,
+      result: tempResult,
+    });
+    tempResult = {};
+  } catch (e) {
+    summary.success = false;
+    summary.testResults.push({
+      title,
+      passed: false,
+      result: tempResult,
+    });
+    tempResult = {};
+  }
 };
-module.exports = Object.assign(tyrion, dsl);
+
+// Prints the test summary and finishes the process with the appropriate exit code
+const end = () => {
+  console.log(`${JSON.stringify(summary)}`);
+  if (summary.fail > 0) process.exit(1);
+  process.exit(0);
+};
+
+// ASSERTIONS
+
+const isEqual = (actual, expected) => {
+  tempResult.actual = actual;
+  tempResult.expected = expected;
+  if (actual !== expected) {
+    throw Error(actual);
+  }
+  return actual;
+};
+
+module.exports = {
+  test,
+  end,
+  beforeEach,
+  summary,
+  isEqual,
+};
