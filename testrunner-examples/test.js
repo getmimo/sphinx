@@ -1,4 +1,4 @@
-const { test, isEqual, end } = require('../peregrine-falcon');
+const { test, isEqual, end } = require('../falcon');
 var rewire = require('rewire');
 
 let jsCode = rewire('./script.js');
