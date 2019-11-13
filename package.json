@@ -6,9 +6,10 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "test": "tsc && jest",
+    "test": "jest",
     "test-watch": "tsc && jest --watch",
-    "build": "tsc",
+    "test-testrunner-example": "node ./testrunner-examples/test.js",
+    "build": "tsc && cp testrunner.js dist/testrunner.js",
     "test-verbose": "tsc && jest --verbose"
   },
   "author": "Thomas Sattlecker",
@@ -20,18 +21,22 @@
   ],
   "license": "ISC",
   "dependencies": {
+    "deep-equal": "^1.1.0",
     "jquery": "3.4.0"
   },
   "devDependencies": {
     "@types/node": "^12.6.9",
     "husky": "^3.0.1",
     "jest": "22.4.4",
+    "jsdom": "^15.2.1",
+    "jsdom-global": "^3.0.2",
     "node-html-parser": "^1.1.16",
+    "rewire": "^4.0.1",
     "typescript": "^3.5.3"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run test && git add ."
+      "pre-commit": "npm run test && npm run build && git add ."
     }
   }
 }
