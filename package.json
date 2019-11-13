@@ -1,6 +1,6 @@
 {
   "name": "@getmimo/sphinx",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "description": "A library of testing functions which can be used in jest to validate various html, javascript or css files",
   "repository": "git://github.com/getmimo/sphinx.git",
   "main": "dist/index.js",
@@ -9,7 +9,7 @@
     "test": "jest",
     "test-watch": "tsc && jest --watch",
     "test-testrunner-example": "node ./testrunner-examples/test.js",
-    "build": "tsc && cp testrunner.js dist/testrunner.js",
+    "build": "tsc && cp ./peregrine-falcon/index.js dist/peregrine-falcon/index.js",
     "test-verbose": "tsc && jest --verbose"
   },
   "author": "Thomas Sattlecker",
