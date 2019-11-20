@@ -2,15 +2,16 @@ const { test, isEqual, end } = require('../falcon');
 var rewire = require('rewire');
 
 let jsCode = rewire('./script.js');
-add2 = jsCode.__get__('add2');
+reverse = jsCode.__get__('reverse');
 
-test(2, '2 + 2 = 4', input => {
-  let result = add2(input);
-  isEqual(result, 4);
+test([1,2,3,4,5],'Test 1', input => {
+  let result = reverse(input);
+  isEqual(result, [5,4,3,2,1])
 });
 
-test(4, '4 + 2 = 6', input => {
-  let result = add2(input);
-  isEqual(result, 6);
+test([8,10,2,27],'Test 2', input => {
+  let result = reverse(input);
+  isEqual(result, [27,2,10,8])
 });
+
 end();
