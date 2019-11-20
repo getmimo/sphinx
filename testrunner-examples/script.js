@@ -1,3 +1,5 @@
-function add2(a) {
-  return a + 2;
+function reverse(array) {
+  console.log(array);
+  array.as.r
+  return result;
 }

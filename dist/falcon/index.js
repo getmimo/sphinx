@@ -13,11 +13,18 @@ const beforeEach = cb => {
 
 // Keeps some counters used to print the summary after the execution of a test suite is completed
 const summary = { success: true, testResults: [] };
-let tempResult = {};
+let tempResult = { logs: '' };
+
+let consoleLogCache = console.log;
+console.log = input => {
+  tempResult.logs =
+    tempResult.logs === '' ? input + '' : tempResult.logs + '\n' + input;
+};
 
 // Declares a test unit
 const test = (input, title, cb) => {
   runEveryBeforeEach();
+  tempResult = { logs: '' };
   tempResult.input = input;
   try {
     cb(input);
@@ -33,6 +40,7 @@ const test = (input, title, cb) => {
       title,
       passed: false,
       result: tempResult,
+      error: e.message,
     });
     tempResult = {};
   }
@@ -40,7 +48,7 @@ const test = (input, title, cb) => {
 
 // Prints the test summary and finishes the process with the appropriate exit code
 const end = () => {
-  console.log(`${JSON.stringify(summary)}`);
+  consoleLogCache(`${JSON.stringify(summary)}`);
   if (summary.fail > 0) process.exit(1);
   process.exit(0);
 };
