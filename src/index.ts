@@ -181,7 +181,7 @@ class Sphinx {
       `Make sure to set the '${propertyName}' property to '${propertyValue}' for the '${elementSelector} selector.'`,
       () => {
         let element = $(elementSelector);
-        this.expect(element.length).toBe(1);
+        this.expect(element.length).toBeGreaterThan(0);
         this.expect($(element).css(propertyName)).toBe(propertyValue);
       },
     );
