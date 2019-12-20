@@ -32,10 +32,21 @@ declare class Sphinx {
         attributeName: any;
         attributeValue: any;
     }): void;
-    elementCSSPropertySet({ elementSelector, propertyName, propertyValue, }: {
+    elementCSSPropertySet({ elementSelector, propertyName, propertyValue }: {
         elementSelector: string;
         propertyName: string;
         propertyValue: string;
+    }): void;
+    /**
+     *
+     *
+     * @param param0
+     */
+    elementCSSPropertySetWithCustomPropertyValue({ elementSelector, propertyName, propertyValue, customPropertyValue }: {
+        elementSelector: string;
+        propertyName: string;
+        propertyValue: string;
+        customPropertyValue: string;
     }): void;
     getEndOfClosingTagIndexForElement({ elementName, startIndex, }: {
         elementName: string;

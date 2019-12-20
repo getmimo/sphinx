@@ -91,8 +91,20 @@ class Sphinx {
             this.expect(isAttributeSet(this.root, elementName, attributeName, attributeValue)).toEqual(true);
         });
     }
-    elementCSSPropertySet({ elementSelector, propertyName, propertyValue, }) {
-        this.test(`Make sure to set the '${propertyName}' property to '${propertyValue}' for the '${elementSelector} selector.'`, () => {
+    elementCSSPropertySet({ elementSelector, propertyName, propertyValue }) {
+        this.test(`Make sure to set the ${propertyName} property to ${propertyValue} for the ${elementSelector} selector.'`, () => {
+            let element = $(elementSelector);
+            this.expect(element.length).toBeGreaterThan(0);
+            this.expect($(element).css(propertyName)).toBe(propertyValue);
+        });
+    }
+    /**
+     *
+     *
+     * @param param0
+     */
+    elementCSSPropertySetWithCustomPropertyValue({ elementSelector, propertyName, propertyValue, customPropertyValue }) {
+        this.test(`Make sure to set the ${propertyName} property to ${customPropertyValue} for the ${elementSelector} selector.'`, () => {
             let element = $(elementSelector);
             this.expect(element.length).toBeGreaterThan(0);
             this.expect($(element).css(propertyName)).toBe(propertyValue);

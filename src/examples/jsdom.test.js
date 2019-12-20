@@ -33,3 +33,10 @@ sphinx.elementCSSPropertySet({
   propertyName: 'margin',
   propertyValue: '0px',
 });
+
+sphinx.elementCSSPropertySetWithCustomPropertyValue ({
+  elementSelector: 'h1',
+  propertyName: 'font-size',
+  propertyValue: '33px',
+  customPropertyValue: '33',
+});
