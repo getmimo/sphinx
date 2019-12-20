@@ -178,7 +178,7 @@ class Sphinx {
     propertyValue: string;
   }) {
     this.test(
-      `Make sure to set the '${propertyName}' property to '${propertyValue}' for the '${elementSelector} selector.'`,
+      `Make sure to set the ${propertyName} property to ${propertyValue} for the ${elementSelector} selector.'`,
       () => {
         let element = $(elementSelector);
         this.expect(element.length).toBe(1);
