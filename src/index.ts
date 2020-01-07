@@ -171,7 +171,7 @@ class Sphinx {
   elementCSSPropertySet({
     elementSelector,
     propertyName,
-    propertyValue,
+    propertyValue
   }: {
     elementSelector: string;
     propertyName: string;
@@ -181,7 +181,33 @@ class Sphinx {
       `Make sure to set the ${propertyName} property to ${propertyValue} for the ${elementSelector} selector.'`,
       () => {
         let element = $(elementSelector);
-        this.expect(element.length).toBe(1);
+        this.expect(element.length).toBeGreaterThan(0);
+        this.expect($(element).css(propertyName)).toBe(propertyValue);
+      },
+    );
+  }
+
+  /**
+   * 
+   * 
+   * @param param0 
+   */
+  elementCSSPropertySetWithCustomPropertyValue({
+    elementSelector,
+    propertyName,
+    propertyValue,
+    customPropertyValue
+  }: {
+    elementSelector: string;
+    propertyName: string;
+    propertyValue: string;
+    customPropertyValue: string;
+  }) {
+    this.test(
+      `Make sure to set the ${propertyName} property to ${customPropertyValue} for the ${elementSelector} selector.'`,
+      () => {
+        let element = $(elementSelector);
+        this.expect(element.length).toBeGreaterThan(0);
         this.expect($(element).css(propertyName)).toBe(propertyValue);
       },
     );
