@@ -91,8 +91,7 @@ class Sphinx {
             this.expect(isAttributeSet(this.root, elementName, attributeName, attributeValue)).toEqual(true);
         });
     }
-  
-    elementCSSPropertySet({ elementSelector, propertyName, propertyValue, }) {
+    elementCSSPropertySet({ elementSelector, propertyName, propertyValue }) {
         this.test(`Make sure to set the ${propertyName} property to ${propertyValue} for the ${elementSelector} selector.'`, () => {
             let element = $(elementSelector);
             this.expect(element.length).toBeGreaterThan(0);
