@@ -155,20 +155,16 @@ function isTextEqual(root, elementName, text) {
 }
 function isTextSimilar(root, elementName, text) {
     let elements = root.querySelectorAll(elementName);
-    let isTextSimilar = false;
+    let isTextSimilar = true;
     for (var index = 0; index < elements.length; index++) {
-        let sampleText = text
-            .replace(/\s+|\n/g, '')
-            .replace(/(:|,|;|\.)/g, '')
-            .toLowerCase();
-        console.log('sampleText', sampleText);
-        let elementText = elements[index].text
-            .replace(/\s+|\n/g, '')
-            .replace(/(:|,|;|\.)/g, '')
-            .toLowerCase();
-        console.log('elementText', elementText);
-        if (elementText === sampleText) {
-            isTextSimilar = true;
+        let sampleTextArray = text.trim().toLowerCase().split(" ");
+        let elementText = elements[index].text.trim().toLowerCase();
+        var i;
+        for (i = 0; i < sampleTextArray.length; i++) {
+            if (!elementText.includes(sampleTextArray[i])) {
+                isTextSimilar = false;
+                break;
+            }
         }
     }
     return isTextSimilar;
