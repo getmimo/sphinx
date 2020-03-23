@@ -80,6 +80,24 @@ class Sphinx {
             });
         }
     }
+    elementTextIsSetLoose({ elementName, text, }) {
+        this.test('Make sure to place text between the ' + elementName + ' tags.', () => {
+            let tag = this.root.querySelector(elementName);
+            this.expect(tag.text.trim().length).toBeGreaterThan(0);
+            this.expect(isTextSet(this.root, elementName)).toEqual(true);
+        });
+        if (text !== undefined) {
+            this.test('Make sure to place ' +
+                text +
+                ' inside the ' +
+                elementName +
+                ' element.', () => {
+                let tag = this.root.querySelector(elementName);
+                this.expect(tag.text.trim().length).toBeGreaterThan(0);
+                this.expect(isTextSimilar(this.root, elementName, text)).toEqual(true);
+            });
+        }
+    }
     elementAttributeSetToCorrectValue({ elementName, attributeName, attributeValue, }) {
         this.test('Make sure the opening ' +
             elementName +
@@ -139,6 +157,18 @@ function isTextEqual(root, elementName, text) {
     }
     return isTextEqual;
 }
+function isTextSimilar(root, elementName, text) {
+    let elements = root.querySelectorAll(elementName);
+    let isTextSimilar = false;
+    for (var index = 0; index < elements.length; index++) {
+        let sampleText = text.replace(/\s+|\n/g, "").replace(/(:|,|;|\.)/g, "").toLowerCase();
+        let elementText = elements[index].text.replace(/\s+|\n/g, "").replace(/(:|,|;|\.)/g, "").toLowerCase();
+        if (elementText === sampleText) {
+            isTextSimilar = true;
+        }
+    }
+    return isTextSimilar;
+}
 function isAttributeSet(root, elementName, attributeName, attributeValue) {
     let elements = root.querySelectorAll(elementName);
     let isAttributeSet = false;
@@ -161,6 +191,7 @@ module.exports = {
     buildSphinxWithJSDOM: buildSphinxWithJSDOM,
     isTextSet: isTextSet,
     isTextEqual: isTextEqual,
+    isTextSimilar: isTextSimilar,
     isAttributeSet: isAttributeSet,
 };
 //# sourceMappingURL=index.js.map
