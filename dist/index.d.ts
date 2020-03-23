@@ -36,7 +36,7 @@ declare class Sphinx {
         attributeName: any;
         attributeValue: any;
     }): void;
-    elementCSSPropertySet({ elementSelector, propertyName, propertyValue }: {
+    elementCSSPropertySet({ elementSelector, propertyName, propertyValue, }: {
         elementSelector: string;
         propertyName: string;
         propertyValue: string;
@@ -46,7 +46,7 @@ declare class Sphinx {
      *
      * @param param0
      */
-    elementCSSPropertySetWithCustomPropertyValue({ elementSelector, propertyName, propertyValue, customPropertyValue }: {
+    elementCSSPropertySetWithCustomPropertyValue({ elementSelector, propertyName, propertyValue, customPropertyValue, }: {
         elementSelector: string;
         propertyName: string;
         propertyValue: string;

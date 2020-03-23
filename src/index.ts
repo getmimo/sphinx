@@ -24,7 +24,7 @@ class Sphinx {
     startIndex: number;
   }) {
     this.test(
-      'Make sure there\'s an opening ' +
+      "Make sure there's an opening " +
         elementName +
         ' tag, <' +
         elementName +
@@ -36,7 +36,7 @@ class Sphinx {
     );
 
     this.test(
-      'Make sure there\'s a closing ' +
+      "Make sure there's a closing " +
         elementName +
         ' tag, </' +
         elementName +
@@ -51,9 +51,9 @@ class Sphinx {
     );
 
     this.test(
-      'Make sure there are opening and closing '+
-      elementName + 
-      ' tags, <' +
+      'Make sure there are opening and closing ' +
+        elementName +
+        ' tags, <' +
         elementName +
         '></' +
         elementName +
@@ -80,11 +80,7 @@ class Sphinx {
     startIndex: number;
   }) {
     this.test(
-      'Make there\'s an opening ' +
-        elementName +
-        ' tag, <' +
-        elementName +
-        '>.',
+      "Make there's an opening " + elementName + ' tag, <' + elementName + '>.',
       () => {
         let openingTagIndex = this.code.indexOf('<' + elementName, startIndex);
         this.expect(openingTagIndex).toBeGreaterThan(0);
@@ -104,7 +100,8 @@ class Sphinx {
         firstElementName +
         ' is inside the ' +
         secondElementName +
-        ' element.',() => {
+        ' element.',
+      () => {
         let outerElement = this.root.querySelector(secondElementName);
         let innerElement = outerElement.querySelectorAll(firstElementName);
         this.expect(innerElement.length).toBeGreaterThan(0);
@@ -134,7 +131,8 @@ class Sphinx {
           text +
           ' inside the ' +
           elementName +
-          ' element.',() => {
+          ' element.',
+        () => {
           let tag = this.root.querySelector(elementName);
           this.expect(tag.text.trim().length).toBeGreaterThan(0);
           this.expect(isTextEqual(this.root, elementName, text)).toEqual(true);
@@ -165,10 +163,13 @@ class Sphinx {
           text +
           ' inside the ' +
           elementName +
-          ' element.',() => {
+          ' element.',
+        () => {
           let tag = this.root.querySelector(elementName);
           this.expect(tag.text.trim().length).toBeGreaterThan(0);
-          this.expect(isTextSimilar(this.root, elementName, text)).toEqual(true);
+          this.expect(isTextSimilar(this.root, elementName, text)).toEqual(
+            true,
+          );
         },
       );
     }
@@ -202,7 +203,7 @@ class Sphinx {
   elementCSSPropertySet({
     elementSelector,
     propertyName,
-    propertyValue
+    propertyValue,
   }: {
     elementSelector: string;
     propertyName: string;
@@ -219,15 +220,15 @@ class Sphinx {
   }
 
   /**
-   * 
-   * 
-   * @param param0 
+   *
+   *
+   * @param param0
    */
   elementCSSPropertySetWithCustomPropertyValue({
     elementSelector,
     propertyName,
     propertyValue,
-    customPropertyValue
+    customPropertyValue,
   }: {
     elementSelector: string;
     propertyName: string;
@@ -297,12 +298,18 @@ function isTextSimilar(root, elementName, text) {
   let isTextSimilar = false;
 
   for (var index = 0; index < elements.length; index++) {
-    let sampleText = text.replace(/\s+|\n/g, "").replace(/(:|,|;|\.)/g,"").toLowerCase();
-    let elementText = elements[index].text.replace(/\s+|\n/g, "").replace(/(:|,|;|\.)/g,"").toLowerCase();
-    if (
-      elementText === sampleText
-    ) {
-      isTextSimilar= true;
+    let sampleText = text
+      .replace(/\s+|\n/g, '')
+      .replace(/(:|,|;|\.)/g, '')
+      .toLowerCase();
+    console.log('sampleText', sampleText);
+    let elementText = elements[index].text
+      .replace(/\s+|\n/g, '')
+      .replace(/(:|,|;|\.)/g, '')
+      .toLowerCase();
+    console.log('elementText', elementText);
+    if (elementText === sampleText) {
+      isTextSimilar = true;
     }
   }
 

@@ -6,7 +6,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "test": "jest",
+    "test": "tsc && jest",
     "test-watch": "tsc && jest --watch",
     "test-testrunner-example": "node ./testrunner-examples/test.js",
     "build": "tsc && cp ./falcon/index.js dist/falcon/index.js",
