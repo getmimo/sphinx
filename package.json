@@ -30,13 +30,23 @@
     "jest": "22.4.4",
     "jsdom": "^15.2.1",
     "jsdom-global": "^3.0.2",
+    "lint-staged": "^10.0.9",
     "node-html-parser": "^1.1.16",
     "rewire": "^4.0.1",
     "typescript": "^3.5.3"
   },
+  "lint-staged": {
+    "*.ts": [
+      "tslint -p ./tsconfig.json -c ./tslint.json --fix",
+      "prettier --config .prettierrc --write"
+    ],
+    "*.{js,json,html,css,scss,md}": [
+      "prettier --config .prettierrc --write"
+    ]
+  },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run test && npm run build && git add ."
+      "pre-commit": "lint-staged && npm run test && npm run build && git add ."
     }
   }
 }
