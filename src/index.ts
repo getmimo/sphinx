@@ -298,11 +298,13 @@ function isTextSimilar(root, elementName, text) {
   let isTextSimilar = true;
 
   for (var index = 0; index < elements.length; index++) {
-    let sampleTextArray = text.trim().toLowerCase().split(" ");
+    let sampleTextArray = text
+      .trim()
+      .toLowerCase()
+      .split(' ');
     let elementText = elements[index].text.trim().toLowerCase();
-    
-    var i;
-    for (i = 0; i < sampleTextArray.length; i++) {
+
+    for (let i = 0; i < sampleTextArray.length; i++) {
       if (!elementText.includes(sampleTextArray[i])) {
         isTextSimilar = false;
         break;
