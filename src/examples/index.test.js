@@ -56,12 +56,13 @@ sphinx.firstElementIsInsideSecond({
   secondElementName: 'p',
 });
 
-sphinx.elementTextIsSet({ elementName: 'h1' });
-sphinx.elementTextIsSet({ elementName: 'p' });
-sphinx.elementTextIsSet({ elementName: 'em' });
-sphinx.elementTextIsSet({ elementName: 'p', text: '3 votes' });
-sphinx.elementTextIsSet({ elementName: 'title', text: 'ab' });
+// sphinx.elementTextIsSet({ elementName: 'h1' });
+// sphinx.elementTextIsSet({ elementName: 'p' });
+// sphinx.elementTextIsSet({ elementName: 'em' });
+// sphinx.elementTextIsSet({ elementName: 'p', text: '3 votes' });
+// sphinx.elementTextIsSet({ elementName: 'title', text: 'ab' });
 
+sphinx.elementTextIsSetLoose({ elementName: 'title', text: 'abc a d' });
 
 sphinx.elementAttributeSetToCorrectValue({
   elementName: 'script',

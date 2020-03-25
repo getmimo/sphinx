@@ -27,12 +27,16 @@ declare class Sphinx {
         elementName: string;
         text: string;
     }): void;
+    elementTextIsSetLoose({ elementName, text, }: {
+        elementName: string;
+        text: string;
+    }): void;
     elementAttributeSetToCorrectValue({ elementName, attributeName, attributeValue, }: {
         elementName: any;
         attributeName: any;
         attributeValue: any;
     }): void;
-    elementCSSPropertySet({ elementSelector, propertyName, propertyValue }: {
+    elementCSSPropertySet({ elementSelector, propertyName, propertyValue, }: {
         elementSelector: string;
         propertyName: string;
         propertyValue: string;
@@ -42,7 +46,7 @@ declare class Sphinx {
      *
      * @param param0
      */
-    elementCSSPropertySetWithCustomPropertyValue({ elementSelector, propertyName, propertyValue, customPropertyValue }: {
+    elementCSSPropertySetWithCustomPropertyValue({ elementSelector, propertyName, propertyValue, customPropertyValue, }: {
         elementSelector: string;
         propertyName: string;
         propertyValue: string;
@@ -55,6 +59,7 @@ declare class Sphinx {
 }
 declare function isTextSet(root: any, elementName: any): boolean;
 declare function isTextEqual(root: any, elementName: any, text: any): boolean;
+declare function isTextSimilar(root: any, elementName: any, text: any): boolean;
 declare function isAttributeSet(root: any, elementName: any, attributeName: any, attributeValue: any): boolean;
 declare function buildSphinx(root: any, htmlCode: string, test: any, expect: any): Sphinx;
 declare function buildSphinxWithJSDOM(test: any, expect: any): Sphinx;

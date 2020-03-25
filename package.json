@@ -6,7 +6,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "test": "jest",
+    "test": "tsc && jest",
     "test-watch": "tsc && jest --watch",
     "test-testrunner-example": "node ./testrunner-examples/test.js",
     "build": "tsc && cp ./falcon/index.js dist/falcon/index.js",
@@ -26,17 +26,21 @@
   },
   "devDependencies": {
     "@types/node": "^12.6.9",
-    "husky": "^3.0.1",
+    "husky": "^4.2.3",
     "jest": "22.4.4",
     "jsdom": "^15.2.1",
     "jsdom-global": "^3.0.2",
+    "lint-staged": "^10.0.9",
     "node-html-parser": "^1.1.16",
     "rewire": "^4.0.1",
     "typescript": "^3.5.3"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run test && npm run build && git add ."
-    }
+  "lint-staged": {
+    "*.ts": [
+      "prettier --config .prettierrc --write"
+    ],
+    "*.{js,json,html,css,scss,md}": [
+      "prettier --config .prettierrc --write"
+    ]
   }
 }

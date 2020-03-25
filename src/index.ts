@@ -24,7 +24,7 @@ class Sphinx {
     startIndex: number;
   }) {
     this.test(
-      'Make sure there\'s an opening ' +
+      "Make sure there's an opening " +
         elementName +
         ' tag, <' +
         elementName +
@@ -36,7 +36,7 @@ class Sphinx {
     );
 
     this.test(
-      'Make sure there\'s a closing ' +
+      "Make sure there's a closing " +
         elementName +
         ' tag, </' +
         elementName +
@@ -51,9 +51,9 @@ class Sphinx {
     );
 
     this.test(
-      'Make sure there are opening and closing '+
-      elementName + 
-      ' tags, <' +
+      'Make sure there are opening and closing ' +
+        elementName +
+        ' tags, <' +
         elementName +
         '></' +
         elementName +
@@ -80,11 +80,7 @@ class Sphinx {
     startIndex: number;
   }) {
     this.test(
-      'Make there\'s an opening ' +
-        elementName +
-        ' tag, <' +
-        elementName +
-        '>.',
+      "Make there's an opening " + elementName + ' tag, <' + elementName + '>.',
       () => {
         let openingTagIndex = this.code.indexOf('<' + elementName, startIndex);
         this.expect(openingTagIndex).toBeGreaterThan(0);
@@ -104,7 +100,8 @@ class Sphinx {
         firstElementName +
         ' is inside the ' +
         secondElementName +
-        ' element.',() => {
+        ' element.',
+      () => {
         let outerElement = this.root.querySelector(secondElementName);
         let innerElement = outerElement.querySelectorAll(firstElementName);
         this.expect(innerElement.length).toBeGreaterThan(0);
@@ -134,10 +131,45 @@ class Sphinx {
           text +
           ' inside the ' +
           elementName +
-          ' element.',() => {
+          ' element.',
+        () => {
           let tag = this.root.querySelector(elementName);
           this.expect(tag.text.trim().length).toBeGreaterThan(0);
           this.expect(isTextEqual(this.root, elementName, text)).toEqual(true);
+        },
+      );
+    }
+  }
+
+  elementTextIsSetLoose({
+    elementName,
+    text,
+  }: {
+    elementName: string;
+    text: string;
+  }) {
+    this.test(
+      'Make sure to place text between the ' + elementName + ' tags.',
+      () => {
+        let tag = this.root.querySelector(elementName);
+        this.expect(tag.text.trim().length).toBeGreaterThan(0);
+        this.expect(isTextSet(this.root, elementName)).toEqual(true);
+      },
+    );
+
+    if (text !== undefined) {
+      this.test(
+        'Make sure to place ' +
+          text +
+          ' inside the ' +
+          elementName +
+          ' element.',
+        () => {
+          let tag = this.root.querySelector(elementName);
+          this.expect(tag.text.trim().length).toBeGreaterThan(0);
+          this.expect(isTextSimilar(this.root, elementName, text)).toEqual(
+            true,
+          );
         },
       );
     }
@@ -171,7 +203,7 @@ class Sphinx {
   elementCSSPropertySet({
     elementSelector,
     propertyName,
-    propertyValue
+    propertyValue,
   }: {
     elementSelector: string;
     propertyName: string;
@@ -188,15 +220,15 @@ class Sphinx {
   }
 
   /**
-   * 
-   * 
-   * @param param0 
+   *
+   *
+   * @param param0
    */
   elementCSSPropertySetWithCustomPropertyValue({
     elementSelector,
     propertyName,
     propertyValue,
-    customPropertyValue
+    customPropertyValue,
   }: {
     elementSelector: string;
     propertyName: string;
@@ -261,6 +293,28 @@ function isTextEqual(root, elementName, text) {
   return isTextEqual;
 }
 
+function isTextSimilar(root, elementName, text) {
+  let elements = root.querySelectorAll(elementName);
+  let isTextSimilar = true;
+
+  for (var index = 0; index < elements.length; index++) {
+    let sampleTextArray = text
+      .trim()
+      .toLowerCase()
+      .split(' ');
+    let elementText = elements[index].text.trim().toLowerCase();
+
+    for (let i = 0; i < sampleTextArray.length; i++) {
+      if (!elementText.includes(sampleTextArray[i])) {
+        isTextSimilar = false;
+        break;
+      }
+    }
+  }
+
+  return isTextSimilar;
+}
+
 function isAttributeSet(root, elementName, attributeName, attributeValue) {
   let elements = root.querySelectorAll(elementName);
   let isAttributeSet = false;
@@ -287,5 +341,6 @@ module.exports = {
   buildSphinxWithJSDOM: buildSphinxWithJSDOM,
   isTextSet: isTextSet,
   isTextEqual: isTextEqual,
+  isTextSimilar: isTextSimilar,
   isAttributeSet: isAttributeSet,
 };
