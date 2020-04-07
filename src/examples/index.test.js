@@ -62,7 +62,7 @@ sphinx.firstElementIsInsideSecond({
 // sphinx.elementTextIsSet({ elementName: 'p', text: '3 votes' });
 // sphinx.elementTextIsSet({ elementName: 'title', text: 'ab' });
 
-sphinx.elementTextIsSetLoose({ elementName: 'title', text: 'abc a d' });
+sphinx.elementTextIsSetLoose({ elementName: 'title', text: 'abc a\n d' });
 
 sphinx.elementAttributeSetToCorrectValue({
   elementName: 'script',
