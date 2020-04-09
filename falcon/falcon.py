@@ -3,9 +3,11 @@ import json
 import sys
 import io
 
-stdout = sys.stdout
+# Intercept stdout, so we can capture user output
+stdoutCache = sys.stdout
 sys.stdout = io.StringIO()
 
+# The test runner summary that we add the individual test results to
 summary = {
     "success": True,
     "testResults": []
@@ -40,5 +42,7 @@ def test(input, title, testCallback):
 
 
 def end():
-    sys.stdout = stdout
+    """Ends the test runner and prints the summary"""
+    sys.stdout = stdoutCache
     print(json.dumps(summary))
+    exit(0)
