@@ -13,6 +13,8 @@ summary = {
     "testResults": []
 }
 
+currentResult = {}
+
 
 def test(input, title, testCallback):
     try:
@@ -25,7 +27,9 @@ def test(input, title, testCallback):
             "error": str(e),
             "result": {
                 "input": input,
-                "logs": sys.stdout.getvalue()
+                "logs": sys.stdout.getvalue(),
+                "actual": currentResult["actual"],
+                "expected": currentResult["expected"]
             }
         })
     else:
@@ -34,11 +38,14 @@ def test(input, title, testCallback):
             "passed": True,
             "result": {
                 "input": input,
-                "logs": sys.stdout.getvalue()
+                "logs": sys.stdout.getvalue(),
+                "actual": currentResult["actual"],
+                "expected": currentResult["expected"]
             }
         })
     finally:
         sys.stdout = io.StringIO()
+        tempResult = {}
 
 
 def end():
@@ -46,3 +53,10 @@ def end():
     sys.stdout = stdoutCache
     print(json.dumps(summary))
     exit(0)
+
+
+def isEqual(actual, expected):
+    currentResult["actual"] = actual
+    currentResult["expected"] = expected
+    if actual != expected:
+        raise Exception(actual)
