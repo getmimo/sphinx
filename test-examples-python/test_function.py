@@ -1,5 +1,6 @@
 import sys
 import parser
+# This is only required in this repository, since the test runner is in a different directory than the tests
 sys.path.append("..")
 from falcon import falcon
 
