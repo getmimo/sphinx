@@ -300,15 +300,15 @@ function isTextSimilar(root, elementName, text) {
   for (var index = 0; index < elements.length; index++) {
     let sampleTextArray = text.trim().toLowerCase().split(' ');
     let lastWord = sampleTextArray.length - 1;
-    let elementText = elements[index].text.trim().toLowerCase();
-
+    let elementTextArray = elements[index].text.trim().toLowerCase().split(' ');
+    
     if (
-      !elementText.includes(sampleTextArray[0]) ||
+      !elementTextArray.includes(sampleTextArray[0]) ||
       (sampleTextArray.length > 1 &&
-        !elementText.includes(sampleTextArray[lastWord]))
+        !elementTextArray.includes(sampleTextArray[lastWord]))
     ) {
       isTextSimilar = false;
-    }
+    } 
   }
 
   return isTextSimilar;
