@@ -28,8 +28,8 @@ def test(input, title, testCallback):
             "result": {
                 "input": input,
                 "logs": sys.stdout.getvalue(),
-                "actual": currentResult["actual"],
-                "expected": currentResult["expected"]
+                "actual": currentResult.get("actual", None),
+                "expected": currentResult.get("expected", None)
             }
         })
     else:
@@ -39,8 +39,8 @@ def test(input, title, testCallback):
             "result": {
                 "input": input,
                 "logs": sys.stdout.getvalue(),
-                "actual": currentResult["actual"],
-                "expected": currentResult["expected"]
+                "actual": currentResult.get("actual", None),
+                "expected": currentResult.get("expected", None)
             }
         })
     finally:
