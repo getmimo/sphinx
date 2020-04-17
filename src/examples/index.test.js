@@ -8,6 +8,7 @@ let sphinx = require('../../dist/index.js').buildSphinx(
   test,
   expect,
 );
+let { isTextSimilar } = require('../../dist/index.js');
 
 sphinx.test('Make sure to start your code with: <!doctype html>.', () => {
   openingTagIndex = htmlCode.indexOf('<!DOCTYPE html>');
@@ -56,13 +57,25 @@ sphinx.firstElementIsInsideSecond({
   secondElementName: 'p',
 });
 
-// sphinx.elementTextIsSet({ elementName: 'h1' });
-// sphinx.elementTextIsSet({ elementName: 'p' });
-// sphinx.elementTextIsSet({ elementName: 'em' });
-// sphinx.elementTextIsSet({ elementName: 'p', text: '3 votes' });
-// sphinx.elementTextIsSet({ elementName: 'title', text: 'ab' });
+//test should pass if the user's text is equal to the sample text (for texts of length > 1)
+sphinx.elementTextIsSetLoose({ elementName: 'title', text: 'abc a\n d' });
+//test should pass if the user's text contains only the first and last words of the sample text
+sphinx.elementTextIsSetLoose({ elementName: 'h2', text: 'abc a\n d' });
+//test should pass if the user's text contains only the first word of the sample text, if the sample text's length is 1
+sphinx.elementTextIsSetLoose({ elementName: 'span', text: 'abc' });
 
-sphinx.elementTextIsSetLoose({ elementName: 'title', text: 'abc a d' });
+test('Test should fail when the user\'s text doesn\'t contain the last word of the sample text', () => {
+  expect(isTextSimilar(root, 'title', 'abc a\n m')).toBe(false);
+});
+test('Test should fail when the user\'s text doesn\'t contain the first word of the sample text', () => {
+  expect(isTextSimilar(root, 'title', 'ab a\n d')).toBe(false);
+});
+test('Test should fail when the user\'s text doesn\'t contain the first and last words of the sample text', () => {
+  expect(isTextSimilar(root, 'title', 'ab a\n m')).toBe(false);
+});
+test('Test should fail when the sample text\'s length is greater than one, but the user\'s text length is less than or equal to one', () => {
+  expect(isTextSimilar(root, 'span', 'abc d')).toBe(false);
+});
 
 sphinx.elementAttributeSetToCorrectValue({
   elementName: 'script',

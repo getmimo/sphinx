@@ -34,7 +34,7 @@ sphinx.elementCSSPropertySet({
   propertyValue: '0px',
 });
 
-sphinx.elementCSSPropertySetWithCustomPropertyValue ({
+sphinx.elementCSSPropertySetWithCustomPropertyValue({
   elementSelector: 'h1',
   propertyName: 'font-size',
   propertyValue: '33px',

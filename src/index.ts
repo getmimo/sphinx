@@ -298,18 +298,17 @@ function isTextSimilar(root, elementName, text) {
   let isTextSimilar = true;
 
   for (var index = 0; index < elements.length; index++) {
-    let sampleTextArray = text
-      .trim()
-      .toLowerCase()
-      .split(' ');
-    let elementText = elements[index].text.trim().toLowerCase();
-
-    for (let i = 0; i < sampleTextArray.length; i++) {
-      if (!elementText.includes(sampleTextArray[i])) {
-        isTextSimilar = false;
-        break;
-      }
-    }
+    let sampleTextArray = text.trim().toLowerCase().split(' ');
+    let lastWord = sampleTextArray.length - 1;
+    let elementTextArray = elements[index].text.trim().toLowerCase().split(' ');
+    
+    if (
+      !elementTextArray.includes(sampleTextArray[0]) ||
+      (sampleTextArray.length > 1 &&
+        !elementTextArray.includes(sampleTextArray[lastWord]))
+    ) {
+      isTextSimilar = false;
+    } 
   }
 
   return isTextSimilar;
