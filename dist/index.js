@@ -58,6 +58,19 @@ class Sphinx {
             this.expect(innerElement.length).toBeGreaterThan(0);
         });
     }
+    firstElementIsInsideSecondAll({ firstElementName, secondElementName, }) {
+        this.test('Make sure the ' +
+            firstElementName +
+            ' is inside the ' +
+            secondElementName +
+            ' element.', () => {
+            let outerElements = this.root.querySelectorAll(secondElementName);
+            const found = outerElements.some((element) => {
+                return element.querySelectorAll(firstElementName).length > 0;
+            });
+            this.expect(found).toBe(true);
+        });
+    }
     elementTextIsSet({ elementName, text, }) {
         this.test('Make sure to place text between the ' + elementName + ' tags.', () => {
             let tag = this.root.querySelector(elementName);
@@ -76,6 +89,18 @@ class Sphinx {
             });
         }
     }
+    elementTextIsSetAll({ elementName, text, }) {
+        const message = text
+            ? 'Make sure to place "' +
+                text +
+                '" inside the ' +
+                elementName +
+                ' element.'
+            : 'Make sure to leave the ' + elementName + ' element empty.';
+        this.test(message, () => {
+            this.expect(isTextEqual(this.root, elementName, text || '')).toEqual(true);
+        });
+    }
     elementTextIsSetLoose({ elementName, text, }) {
         this.test('Make sure to place text between the ' + elementName + ' tags.', () => {
             let tag = this.root.querySelector(elementName);
@@ -93,6 +118,18 @@ class Sphinx {
                 this.expect(isTextSimilar(this.root, elementName, text)).toEqual(true);
             });
         }
+    }
+    elementTextIsSetLooseAll({ elementName, text, }) {
+        const message = text
+            ? 'Make sure to place "' +
+                text +
+                '" inside the ' +
+                elementName +
+                ' element.'
+            : 'Make sure to leave the ' + elementName + ' element empty.';
+        this.test(message, () => {
+            this.expect(isTextSimilar(this.root, elementName, text || '')).toEqual(true);
+        });
     }
     elementAttributeSetToCorrectValue({ elementName, attributeName, attributeValue, }) {
         this.test('Make sure the opening ' +
@@ -155,18 +192,17 @@ function isTextEqual(root, elementName, text) {
 }
 function isTextSimilar(root, elementName, text) {
     let elements = root.querySelectorAll(elementName);
-    let isTextSimilar = true;
-    for (var index = 0; index < elements.length; index++) {
+    const isSimilar = elements.some((element) => {
         let sampleTextArray = text.trim().toLowerCase().split(' ');
         let lastWord = sampleTextArray.length - 1;
-        let elementTextArray = elements[index].text.trim().toLowerCase().split(' ');
-        if (!elementTextArray.includes(sampleTextArray[0]) ||
-            (sampleTextArray.length > 1 &&
-                !elementTextArray.includes(sampleTextArray[lastWord]))) {
-            isTextSimilar = false;
+        let elementTextArray = element.text.trim().toLowerCase().split(' ');
+        if (sampleTextArray.length > 1 && elementTextArray <= 1) {
+            return false;
         }
-    }
-    return isTextSimilar;
+        return (elementTextArray.includes(sampleTextArray[0]) &&
+            elementTextArray.includes(sampleTextArray[lastWord]));
+    });
+    return isSimilar;
 }
 function isAttributeSet(root, elementName, attributeName, attributeValue) {
     let elements = root.querySelectorAll(elementName);
