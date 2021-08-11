@@ -23,11 +23,23 @@ declare class Sphinx {
         firstElementName: string;
         secondElementName: string;
     }): void;
+    firstElementIsInsideSecondAll({ firstElementName, secondElementName, }: {
+        firstElementName: string;
+        secondElementName: string;
+    }): void;
     elementTextIsSet({ elementName, text, }: {
         elementName: string;
         text: string;
     }): void;
+    elementTextIsSetAll({ elementName, text, }: {
+        elementName: string;
+        text: string;
+    }): void;
     elementTextIsSetLoose({ elementName, text, }: {
+        elementName: string;
+        text: string;
+    }): void;
+    elementTextIsSetLooseAll({ elementName, text, }: {
         elementName: string;
         text: string;
     }): void;
@@ -59,7 +71,7 @@ declare class Sphinx {
 }
 declare function isTextSet(root: any, elementName: any): boolean;
 declare function isTextEqual(root: any, elementName: any, text: any): boolean;
-declare function isTextSimilar(root: any, elementName: any, text: any): boolean;
+declare function isTextSimilar(root: any, elementName: any, text: any): any;
 declare function isAttributeSet(root: any, elementName: any, attributeName: any, attributeValue: any): boolean;
 declare function buildSphinx(root: any, htmlCode: string, test: any, expect: any): Sphinx;
 declare function buildSphinxWithJSDOM(test: any, expect: any): Sphinx;

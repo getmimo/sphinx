@@ -64,16 +64,16 @@ sphinx.elementTextIsSetLoose({ elementName: 'h2', text: 'abc a\n d' });
 //test should pass if the user's text contains only the first word of the sample text, if the sample text's length is 1
 sphinx.elementTextIsSetLoose({ elementName: 'span', text: 'abc' });
 
-test('Test should fail when the user\'s text doesn\'t contain the last word of the sample text', () => {
+test("Test should fail when the user's text doesn't contain the last word of the sample text", () => {
   expect(isTextSimilar(root, 'title', 'abc a\n m')).toBe(false);
 });
-test('Test should fail when the user\'s text doesn\'t contain the first word of the sample text', () => {
+test("Test should fail when the user's text doesn't contain the first word of the sample text", () => {
   expect(isTextSimilar(root, 'title', 'ab a\n d')).toBe(false);
 });
-test('Test should fail when the user\'s text doesn\'t contain the first and last words of the sample text', () => {
+test("Test should fail when the user's text doesn't contain the first and last words of the sample text", () => {
   expect(isTextSimilar(root, 'title', 'ab a\n m')).toBe(false);
 });
-test('Test should fail when the sample text\'s length is greater than one, but the user\'s text length is less than or equal to one', () => {
+test("Test should fail when the sample text's length is greater than one, but the user's text length is less than or equal to one", () => {
   expect(isTextSimilar(root, 'span', 'abc d')).toBe(false);
 });
 
