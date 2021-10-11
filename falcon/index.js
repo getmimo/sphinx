@@ -5,9 +5,9 @@ const deepEqual = require('deep-equal');
 const beforeEachStack = [[]];
 // Runs every beforeEach callback in the stack
 const runEveryBeforeEach = () => {
-  beforeEachStack.forEach(level => level.forEach(cb => cb()));
+  beforeEachStack.forEach((level) => level.forEach((cb) => cb()));
 };
-const beforeEach = cb => {
+const beforeEach = (cb) => {
   beforeEachStack[beforeEachStack.length - 1].push(cb);
 };
 
@@ -16,13 +16,24 @@ const summary = { success: true, testResults: [] };
 let tempResult = { logs: '' };
 
 let consoleLogCache = console.log;
-console.log = input => {
+console.log = (input) => {
   tempResult.logs =
     tempResult.logs === '' ? input + '' : tempResult.logs + '\n' + input;
 };
 
 // Declares a test unit
-const test = (input, title, cb) => {
+const test = (param1, param2, param3) => {
+  let input;
+  let title;
+  let cb;
+  if (typeof param2 == 'function') {
+    title = param1;
+    cb = param2;
+  } else {
+    input = param1;
+    title = param2;
+    cb = param3;
+  }
   runEveryBeforeEach();
   tempResult = { logs: '' };
   tempResult.input = input;
