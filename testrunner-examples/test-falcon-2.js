@@ -1,6 +1,8 @@
 const { test, isEqual, end } = require('../falcon');
 var chai = require('chai');
+chai.should();
 chai.use(require('chai-dom'));
+chai.use(require('chai-things'));
 let expect = chai.expect;
 const jquery = require('jquery');
 let fs = require('fs');
@@ -52,44 +54,20 @@ test(
   },
 );
 
-// emptyElementExists
+// empty element exists
 elementName = 'div';
 test(
   "Make there's an opening " + elementName + ' tag, <' + elementName + '>.',
   () => {
-    let userCode = fs.readFileSync(
-      './testrunner-examples/index.empty-element-exists.html',
-      'utf8',
-    );
-    this.jsdom = require('jsdom-global')();
-    document.body.innerHTML = userCode;
-    const style = document.createElement('style');
-    document.body.appendChild(style);
-    let $ = jquery(window);
-    global.$ = $; // make availble to other files if necessary
-
-    let element = $(elementName).get(0);
-    expect(element).to.exist;
-    expect(element).to.be.empty;
-  },
-);
-
-// firstElementIsInsideSecond
-let innerElementName = 'div';
-let outerElementName = 'body';
-test(
-  'Make sure the ' +
-    innerElementName +
-    ' is inside the ' +
-    outerElementName +
-    ' element.',
-  () => {
     let userCode = `
-<html>
-  <body>
-    <div></div>
-  </body>
-</html>`;
+<!DOCTYPE html>
+  <html>
+    <body>
+      <div>asdf</div>
+      <div></div>
+    </body>
+  </html>
+`;
     this.jsdom = require('jsdom-global')();
     document.body.innerHTML = userCode;
     const style = document.createElement('style');
@@ -97,14 +75,18 @@ test(
     let $ = jquery(window);
     global.$ = $; // make availble to other files if necessary
 
-    let innerElement = $(outerElementName).children(':first').get(0);
-    expect(innerElement).to.have.tagName(innerElementName);
+    let elements = document.querySelectorAll(elementName);
+
+    expect(elements).to.exist;
+    expect(
+      [...elements].filter((e) => e.childNodes.length === 0).length,
+    ).to.be.greaterThanOrEqual(1);
   },
 );
 
 // firstElementIsInsideSecondAll
 innerElementName = 'div';
-outerElementName = 'body';
+outerElementName = 'span';
 test(
   'Make sure the ' +
     innerElementName +
@@ -115,6 +97,9 @@ test(
     let userCode = `
 <html>
   <body>
+    <span>
+      asdf
+    </span>
     <span>
       <div></div>
     </span>
@@ -127,12 +112,10 @@ test(
     let $ = jquery(window);
     global.$ = $; // make availble to other files if necessary
 
-    let outerElement = $(outerElementName).get(0);
-    expect(outerElement).to.have.descendants(innerElementName);
+    let outerElements = document.querySelectorAll(outerElementName);
+    expect(outerElements).to.contain.some.have.descendants(innerElementName);
   },
 );
-
-// elementTextIsSet
 
 // elementTextIsSetAll
 elementName = 'div';
@@ -141,6 +124,8 @@ test('Make sure to place text between the ' + elementName + ' tags.', () => {
   let userCode = `
 <html>
   <body>
+    <div>
+    </div>
     <div>
       TEXT
     </div>
@@ -153,11 +138,11 @@ test('Make sure to place text between the ' + elementName + ' tags.', () => {
   let $ = jquery(window);
   global.$ = $; // make availble to other files if necessary
 
-  let outerElement = $(elementName).get(0);
-  expect(outerElement).to.have.trimmed.text(text);
+  let outerElements = document.querySelectorAll(elementName);
+  expect(outerElements).to.contain.some.have.trimmed.text(text);
 });
 
-// elementTextIsSetLoose
+// elementTextIsSetLooseAll
 elementName = 'div';
 text = 'TEXT';
 test('Make sure to place text between the ' + elementName + ' tags.', () => {
@@ -197,6 +182,9 @@ test(
 <html>
   <body>
     <div>
+
+    </div>
+    <div>
       TEXT
     </div>
   </body>
@@ -208,13 +196,12 @@ test(
     let $ = jquery(window);
     global.$ = $; // make availble to other files if necessary
 
-    expect(document.querySelectorAll(elementName)).to.have.trimmed.text(text);
+    let tags = document.querySelectorAll(elementName);
+    expect(tags).to.contain.some.have.trimmed.text(text);
   },
 );
 
-// elementTextIsSetLooseAll
-
-// elementAttributeSetToCorrectValue
+// elementAttributeSetToCorrectValueAll
 elementName = 'div';
 attributeName = 'value';
 attributeValue = '1';
@@ -230,6 +217,7 @@ test(
     let userCode = `
 <html>
   <body>
+    <div></div>
     <div value="1">
       TEXT
     </div>
@@ -241,11 +229,8 @@ test(
     document.body.appendChild(style);
     let $ = jquery(window);
     global.$ = $; // make availble to other files if necessary
-
-    expect(document.querySelector(elementName)).to.have.attribute(
-      attributeName,
-      attributeValue,
-    );
+    let tags = document.querySelectorAll(elementName);
+    expect(tags).to.contain.some.have.attribute(attributeName, attributeValue);
   },
 );
 
@@ -260,6 +245,9 @@ test(`Make sure to set the ${propertyName} property to ${propertyValue} for the 
     <div class="red">
       TEXT
     </div>
+    <div class="blue">
+      TEXT
+    </div>
   </body>
 </html>`;
   this.jsdom = require('jsdom-global')();
@@ -270,11 +258,10 @@ test(`Make sure to set the ${propertyName} property to ${propertyValue} for the 
   let $ = jquery(window);
   global.$ = $; // make availble to other files if necessary
 
-  expect(
-    window
-      .getComputedStyle(document.querySelector(elementSelector))
-      .getPropertyValue(propertyName),
-  ).to.equal(propertyValue);
+  let elementComputedCSSProperties = [
+    ...document.querySelectorAll(elementSelector),
+  ].map((e) => window.getComputedStyle(e).getPropertyValue(propertyName));
+  expect(elementComputedCSSProperties).to.contain.some.be.equal(propertyValue);
 });
 
 elementName = 'div';
@@ -297,9 +284,11 @@ test(`Make sure the element ${elementName} is right after ${previousElementName}
   let $ = jquery(window);
   global.$ = $; // make availble to other files if necessary
 
-  expect(
-    document.querySelector(previousElementName).nextElementSibling,
-  ).to.have.tagName(elementName);
+  let elementSiblings = [...document.querySelectorAll(previousElementName)].map(
+    (e) => e.nextElementSibling,
+  );
+
+  expect(elementSiblings).to.contain.some.have.tagName(elementName);
 });
 
 end();
