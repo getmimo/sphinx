@@ -21,11 +21,18 @@ console.log = (input) => {
     tempResult.logs === '' ? input + '' : tempResult.logs + '\n' + input;
 };
 
+/**
+We are overloading this function. It can be used with either 2 or 3 params
+  * using it with 2 params means the first param is the `title` and the second is the `callback`
+  * using it with 3 params means the first param is the test `input`, the second is the `title` and the third is the `callback`
+ */
 // Declares a test unit
 const test = (param1, param2, param3) => {
   let input;
   let title;
   let cb;
+  // This check sets the function up for overloading the params. If the second param is a function, we ignore the third param
+  // if the second param is not a function, we expect 3 params to be provided.
   if (typeof param2 == 'function') {
     title = param1;
     cb = param2;
