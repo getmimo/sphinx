@@ -1,5 +1,8 @@
 'use strict';
 const deepEqual = require('deep-equal');
+const jsdom = require('jsdom');
+const { JSDOM } = jsdom;
+let path = require('path');
 
 // The stack of beforeEach callbacks
 const beforeEachStack = [[]];
@@ -27,7 +30,7 @@ We are overloading this function. It can be used with either 2 or 3 params
   * using it with 3 params means the first param is the test `input`, the second is the `title` and the third is the `callback`
  */
 // Declares a test unit
-const test = (param1, param2, param3) => {
+const test = async (param1, param2, param3) => {
   let input;
   let title;
   let cb;
@@ -45,7 +48,7 @@ const test = (param1, param2, param3) => {
   tempResult = { logs: '' };
   tempResult.input = input;
   try {
-    cb(input);
+    await cb(input);
     summary.testResults.push({
       title,
       passed: true,
@@ -82,10 +85,25 @@ const isEqual = (actual, expected) => {
   return actual;
 };
 
+// HELPER
+async function domLoaded(file) {
+  return JSDOM.fromFile(path.resolve(__dirname, file), {
+    resources: 'usable',
+    runScripts: 'dangerously',
+  }).then(async (dom) => {
+    return await new Promise((resolve, reject) => {
+      dom.window.document.addEventListener('DOMContentLoaded', () => {
+        resolve(dom);
+      });
+    });
+  });
+}
+
 module.exports = {
   test,
   end,
   beforeEach,
   summary,
   isEqual,
+  domLoaded,
 };
