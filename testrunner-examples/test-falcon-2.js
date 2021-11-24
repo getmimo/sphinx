@@ -1,4 +1,5 @@
-const { test, isEqual, end } = require('../falcon');
+const { test, isEqual, end, domLoaded } = require('../falcon');
+var rewire = require('rewire');
 var chai = require('chai');
 chai.should();
 chai.use(require('chai-dom'));
@@ -270,7 +271,7 @@ test(`Make sure the element ${elementName} is right after ${previousElementName}
   let userCode = `
 <html>
   <body>
-    <span></span> 
+    <span></span>
     <div class="red">
       TEXT
     </div>
@@ -291,4 +292,21 @@ test(`Make sure the element ${elementName} is right after ${previousElementName}
   expect(elementSiblings).to.contain.some.have.tagName(elementName);
 });
 
-end();
+async function start() {
+  await test(`Make sure to set the color property to purple for the h1 selector.'`, async () => {
+    let dom = await domLoaded('./testrunner-examples/index2.html');
+    let button = dom.window.document.getElementsByTagName('button')[0];
+    button.click();
+    let span = dom.window.document.getElementsByTagName('span')[0];
+    expect(span.innerHTML).to.equal('saved');
+  });
+  end();
+  // await test(`Make sure to set the color property to purple for the h1 selector.'`, async () => {
+  //   let dom = await domLoaded('../testrunner-examples/index2.html');
+  //   let h1 = dom.window.document.getElementsByTagName('h1')[0];
+  //   expect(h1.style.backgroundColor).to.equal('lightGray');
+  // });
+  // end();
+}
+
+start();
