@@ -294,7 +294,7 @@ test(`Make sure the element ${elementName} is right after ${previousElementName}
 
 async function start() {
   await test(`Make sure to set the color property to purple for the h1 selector.'`, async () => {
-    let dom = await domLoaded('../testrunner-examples/index2.html');
+    let dom = await domLoaded('./testrunner-examples/index2.html');
     let button = dom.window.document.getElementsByTagName('button')[0];
     button.click();
     let span = dom.window.document.getElementsByTagName('span')[0];

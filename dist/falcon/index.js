@@ -87,7 +87,7 @@ const isEqual = (actual, expected) => {
 
 // HELPER
 async function domLoaded(file) {
-  return JSDOM.fromFile(path.resolve(__dirname, file), {
+  return JSDOM.fromFile(path.resolve(file), {
     resources: 'usable',
     runScripts: 'dangerously',
   }).then(async (dom) => {
