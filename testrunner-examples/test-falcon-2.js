@@ -1,4 +1,6 @@
-const { test, isEqual, end, domLoaded } = require('../falcon');
+const { test, isEqual, end } = require('../falcon');
+const { domLoaded } = require('../dist/index.js');
+
 var rewire = require('rewire');
 var chai = require('chai');
 chai.should();
