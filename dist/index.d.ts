@@ -1,4 +1,7 @@
 declare const $: any;
+declare const jsdom: any;
+declare const JSDOM: any;
+declare let path: any;
 declare class Sphinx {
     private code;
     private root;
@@ -75,3 +78,4 @@ declare function isTextSimilar(root: any, elementName: any, text: any): any;
 declare function isAttributeSet(root: any, elementName: any, attributeName: any, attributeValue: any): boolean;
 declare function buildSphinx(root: any, htmlCode: string, test: any, expect: any): Sphinx;
 declare function buildSphinxWithJSDOM(test: any, expect: any): Sphinx;
+declare function domLoaded(file: any): Promise<any>;

@@ -1,8 +1,5 @@
 'use strict';
 const deepEqual = require('deep-equal');
-const jsdom = require('jsdom');
-const { JSDOM } = jsdom;
-let path = require('path');
 
 // The stack of beforeEach callbacks
 const beforeEachStack = [[]];
@@ -83,27 +80,4 @@ const isEqual = (actual, expected) => {
     throw Error(actual);
   }
   return actual;
-};
-
-// HELPER
-async function domLoaded(file) {
-  return JSDOM.fromFile(path.resolve(file), {
-    resources: 'usable',
-    runScripts: 'dangerously',
-  }).then(async (dom) => {
-    return await new Promise((resolve, reject) => {
-      dom.window.document.addEventListener('DOMContentLoaded', () => {
-        resolve(dom);
-      });
-    });
-  });
-}
-
-module.exports = {
-  test,
-  end,
-  beforeEach,
-  summary,
-  isEqual,
-  domLoaded,
 };
