@@ -1,4 +1,7 @@
 const $ = require('jquery');
+const jsdom = require('jsdom');
+const { JSDOM } = jsdom;
+let path = require('path');
 
 class Sphinx {
   private code: string;
@@ -400,6 +403,20 @@ function buildSphinxWithJSDOM(test: any, expect: any) {
   return new Sphinx(undefined, undefined, test, expect);
 }
 
+// HELPER
+async function domLoaded(file) {
+  return JSDOM.fromFile(path.resolve(file), {
+    resources: 'usable',
+    runScripts: 'dangerously',
+  }).then(async (dom) => {
+    return await new Promise((resolve, reject) => {
+      dom.window.document.addEventListener('DOMContentLoaded', () => {
+        resolve(dom);
+      });
+    });
+  });
+}
+
 module.exports = {
   buildSphinx: buildSphinx,
   buildSphinxWithJSDOM: buildSphinxWithJSDOM,
@@ -407,4 +424,5 @@ module.exports = {
   isTextEqual: isTextEqual,
   isTextSimilar: isTextSimilar,
   isAttributeSet: isAttributeSet,
+  domLoaded,
 };
