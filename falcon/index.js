@@ -81,3 +81,11 @@ const isEqual = (actual, expected) => {
   }
   return actual;
 };
+
+module.exports = {
+  test,
+  end,
+  beforeEach,
+  summary,
+  isEqual,
+};
