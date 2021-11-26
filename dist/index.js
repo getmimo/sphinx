@@ -1,16 +1,4 @@
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 const $ = require('jquery');
-const jsdom = require('jsdom');
-const { JSDOM } = jsdom;
-let path = require('path');
 class Sphinx {
     constructor(root, code, test, expect) {
         this.code = code;
@@ -233,21 +221,6 @@ function buildSphinx(root, htmlCode, test, expect) {
 function buildSphinxWithJSDOM(test, expect) {
     return new Sphinx(undefined, undefined, test, expect);
 }
-// HELPER
-function domLoaded(file) {
-    return __awaiter(this, void 0, void 0, function* () {
-        return JSDOM.fromFile(path.resolve(file), {
-            resources: 'usable',
-            runScripts: 'dangerously',
-        }).then((dom) => __awaiter(this, void 0, void 0, function* () {
-            return yield new Promise((resolve, reject) => {
-                dom.window.document.addEventListener('DOMContentLoaded', () => {
-                    resolve(dom);
-                });
-            });
-        }));
-    });
-}
 module.exports = {
     buildSphinx: buildSphinx,
     buildSphinxWithJSDOM: buildSphinxWithJSDOM,
@@ -255,6 +228,5 @@ module.exports = {
     isTextEqual: isTextEqual,
     isTextSimilar: isTextSimilar,
     isAttributeSet: isAttributeSet,
-    domLoaded,
 };
 //# sourceMappingURL=index.js.map
