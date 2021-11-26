@@ -4,14 +4,13 @@ let path = require('path');
 
 // HELPER
 async function domLoaded(file) {
-  return JSDOM.fromFile(path.resolve(file), {
+  const dom = await JSDOM.fromFile(path.resolve(file), {
     resources: 'usable',
     runScripts: 'dangerously',
-  }).then(async (dom) => {
-    return await new Promise((resolve, reject) => {
-      dom.window.document.addEventListener('DOMContentLoaded', () => {
-        resolve(dom);
-      });
+  });
+  return await new Promise((resolve, reject) => {
+    dom.window.document.addEventListener('DOMContentLoaded', () => {
+      resolve(dom);
     });
   });
 }
