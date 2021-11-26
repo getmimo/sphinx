@@ -1,28 +1,18 @@
 const $ = require('jquery');
-
+const jsdom = require('jsdom');
+const { JSDOM } = jsdom;
+let path = require('path');
 class Sphinx {
-  private code: string;
-  private root: any;
-  private test: any;
-  private expect: any;
-
-  constructor(root: any, code: string, test: any, expect: any) {
+  constructor(root, code, test, expect) {
     this.code = code;
     this.root = root;
     this.test = test;
     this.expect = expect;
   }
-
   /**
    * Test if the element with a specified elementName exists, starting from the searchIndex
    */
-  elementExists({
-    elementName,
-    startIndex,
-  }: {
-    elementName: string;
-    startIndex: number;
-  }) {
+  elementExists({ elementName, startIndex }) {
     this.test(
       "Make sure there's an opening " +
         elementName +
@@ -34,7 +24,6 @@ class Sphinx {
         this.expect(openingTagIndex).toBeGreaterThan(0);
       },
     );
-
     this.test(
       "Make sure there's a closing " +
         elementName +
@@ -49,7 +38,6 @@ class Sphinx {
         this.expect(closingTagIndex).toBeGreaterThan(0);
       },
     );
-
     this.test(
       'Make sure there are opening and closing ' +
         elementName +
@@ -68,17 +56,10 @@ class Sphinx {
       },
     );
   }
-
   /**
    * Test if the element with a specified elementName exists and is empty, starting from the searchIndex
    */
-  emptyElementExists({
-    elementName,
-    startIndex,
-  }: {
-    elementName: string;
-    startIndex: number;
-  }) {
+  emptyElementExists({ elementName, startIndex }) {
     this.test(
       "Make there's an opening " + elementName + ' tag, <' + elementName + '>.',
       () => {
@@ -87,14 +68,7 @@ class Sphinx {
       },
     );
   }
-
-  firstElementIsInsideSecond({
-    firstElementName,
-    secondElementName,
-  }: {
-    firstElementName: string;
-    secondElementName: string;
-  }) {
+  firstElementIsInsideSecond({ firstElementName, secondElementName }) {
     this.test(
       'Make sure the ' +
         firstElementName +
@@ -108,14 +82,7 @@ class Sphinx {
       },
     );
   }
-
-  firstElementIsInsideSecondAll({
-    firstElementName,
-    secondElementName,
-  }: {
-    firstElementName: string;
-    secondElementName: string;
-  }) {
+  firstElementIsInsideSecondAll({ firstElementName, secondElementName }) {
     this.test(
       'Make sure the ' +
         firstElementName +
@@ -131,14 +98,7 @@ class Sphinx {
       },
     );
   }
-
-  elementTextIsSet({
-    elementName,
-    text,
-  }: {
-    elementName: string;
-    text: string;
-  }) {
+  elementTextIsSet({ elementName, text }) {
     this.test(
       'Make sure to place text between the ' + elementName + ' tags.',
       () => {
@@ -147,7 +107,6 @@ class Sphinx {
         this.expect(isTextSet(this.root, elementName)).toEqual(true);
       },
     );
-
     if (text !== undefined) {
       this.test(
         'Make sure to place ' +
@@ -163,14 +122,7 @@ class Sphinx {
       );
     }
   }
-
-  elementTextIsSetAll({
-    elementName,
-    text,
-  }: {
-    elementName: string;
-    text: string;
-  }) {
+  elementTextIsSetAll({ elementName, text }) {
     const message = text
       ? 'Make sure to place "' +
         text +
@@ -184,14 +136,7 @@ class Sphinx {
       );
     });
   }
-
-  elementTextIsSetLoose({
-    elementName,
-    text,
-  }: {
-    elementName: string;
-    text: string;
-  }) {
+  elementTextIsSetLoose({ elementName, text }) {
     this.test(
       'Make sure to place text between the ' + elementName + ' tags.',
       () => {
@@ -200,7 +145,6 @@ class Sphinx {
         this.expect(isTextSet(this.root, elementName)).toEqual(true);
       },
     );
-
     if (text !== undefined) {
       this.test(
         'Make sure to place ' +
@@ -218,14 +162,7 @@ class Sphinx {
       );
     }
   }
-
-  elementTextIsSetLooseAll({
-    elementName,
-    text,
-  }: {
-    elementName: string;
-    text: string;
-  }) {
+  elementTextIsSetLooseAll({ elementName, text }) {
     const message = text
       ? 'Make sure to place "' +
         text +
@@ -239,15 +176,10 @@ class Sphinx {
       );
     });
   }
-
   elementAttributeSetToCorrectValue({
     elementName,
     attributeName,
     attributeValue,
-  }: {
-    elementName;
-    attributeName;
-    attributeValue;
   }) {
     this.test(
       'Make sure the opening ' +
@@ -264,16 +196,7 @@ class Sphinx {
       },
     );
   }
-
-  elementCSSPropertySet({
-    elementSelector,
-    propertyName,
-    propertyValue,
-  }: {
-    elementSelector: string;
-    propertyName: string;
-    propertyValue: string;
-  }) {
+  elementCSSPropertySet({ elementSelector, propertyName, propertyValue }) {
     this.test(
       `Make sure to set the ${propertyName} property to ${propertyValue} for the ${elementSelector} selector.'`,
       () => {
@@ -283,7 +206,6 @@ class Sphinx {
       },
     );
   }
-
   /**
    *
    *
@@ -294,11 +216,6 @@ class Sphinx {
     propertyName,
     propertyValue,
     customPropertyValue,
-  }: {
-    elementSelector: string;
-    propertyName: string;
-    propertyValue: string;
-    customPropertyValue: string;
   }) {
     this.test(
       `Make sure to set the ${propertyName} property to ${customPropertyValue} for the ${elementSelector} selector.'`,
@@ -309,19 +226,11 @@ class Sphinx {
       },
     );
   }
-
-  getEndOfClosingTagIndexForElement({
-    elementName,
-    startIndex,
-  }: {
-    elementName: string;
-    startIndex: number;
-  }) {
+  getEndOfClosingTagIndexForElement({ elementName, startIndex }) {
     let searchIndex = startIndex;
     if (searchIndex === undefined) {
       searchIndex = 0;
     }
-
     let closingTagIndex = this.code.indexOf(
       '</' + elementName + '>',
       startIndex,
@@ -329,24 +238,19 @@ class Sphinx {
     return closingTagIndex + elementName.length;
   }
 }
-
 function isTextSet(root, elementName) {
   let elements = root.querySelectorAll(elementName);
   let isTextSet = false;
-
   for (var index = 0; index < elements.length; index++) {
     if (elements[index].text.trim().length > 0) {
       isTextSet = true;
     }
   }
-
   return isTextSet;
 }
-
 function isTextEqual(root, elementName, text) {
   let elements = root.querySelectorAll(elementName);
   let isTextEqual = false;
-
   for (var index = 0; index < elements.length; index++) {
     if (
       elements[index].text.trim().toLowerCase() === text.trim().toLowerCase()
@@ -354,31 +258,24 @@ function isTextEqual(root, elementName, text) {
       isTextEqual = true;
     }
   }
-
   return isTextEqual;
 }
-
 function isTextSimilar(root, elementName, text) {
   let elements = root.querySelectorAll(elementName);
-
   const isSimilar = elements.some((element) => {
     let sampleTextArray = text.trim().toLowerCase().split(' ');
     let lastWord = sampleTextArray.length - 1;
     let elementTextArray = element.text.trim().toLowerCase().split(' ');
-
     if (sampleTextArray.length > 1 && elementTextArray <= 1) {
       return false;
     }
-
     return (
       elementTextArray.includes(sampleTextArray[0]) &&
       elementTextArray.includes(sampleTextArray[lastWord])
     );
   });
-
   return isSimilar;
 }
-
 function isAttributeSet(root, elementName, attributeName, attributeValue) {
   let elements = root.querySelectorAll(elementName);
   let isAttributeSet = false;
@@ -388,18 +285,14 @@ function isAttributeSet(root, elementName, attributeName, attributeValue) {
       isAttributeSet = true;
     }
   }
-
   return isAttributeSet;
 }
-
-function buildSphinx(root: any, htmlCode: string, test: any, expect: any) {
+function buildSphinx(root, htmlCode, test, expect) {
   return new Sphinx(root, htmlCode, test, expect);
 }
-
-function buildSphinxWithJSDOM(test: any, expect: any) {
+function buildSphinxWithJSDOM(test, expect) {
   return new Sphinx(undefined, undefined, test, expect);
 }
-
 module.exports = {
   buildSphinx: buildSphinx,
   buildSphinxWithJSDOM: buildSphinxWithJSDOM,
@@ -408,3 +301,4 @@ module.exports = {
   isTextSimilar: isTextSimilar,
   isAttributeSet: isAttributeSet,
 };
+//# sourceMappingURL=index.js.map

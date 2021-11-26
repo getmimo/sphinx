@@ -10,7 +10,7 @@
     "test-watch": "tsc && jest --watch",
     "test-testrunner-example": "node ./testrunner-examples/test.js",
     "test-falcon-2": "node ./testrunner-examples/test-falcon-2.js",
-    "build": "tsc && cp ./falcon/index.js dist/falcon/index.js",
+    "build": "tsc && mkdir -p dist/falcon && mkdir -p dist/async && cp ./falcon/index.js dist/falcon/index.js && cp ./async/index.js dist/async/index.js",
     "test-verbose": "tsc && jest --verbose"
   },
   "author": "Thomas Sattlecker",

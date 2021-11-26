@@ -1,5 +1,5 @@
 const { test, isEqual, end } = require('../falcon');
-const { domLoaded } = require('../dist/index.js');
+const { domLoaded } = require('../async');
 
 var rewire = require('rewire');
 var chai = require('chai');
