@@ -45,7 +45,11 @@ const test = async (param1, param2, param3) => {
   tempResult = { logs: '' };
   tempResult.input = input;
   try {
-    await cb(input);
+    if (cb[Symbol.toStringTag] === 'AsyncFunction') {
+      await cb(input);
+    } else {
+      cb(input);
+    }
     summary.testResults.push({
       title,
       passed: true,
