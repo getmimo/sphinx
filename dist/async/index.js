@@ -9,7 +9,11 @@ async function domLoaded(file) {
     runScripts: 'dangerously',
   });
   return await new Promise((resolve, reject) => {
-    dom.window.document.addEventListener('DOMContentLoaded', () => {
+    let timeout = setTimeout(() => {
+      reject('Loading the DOM timed out');
+    }, 5000);
+    dom.window.document.addEventListener('load', () => {
+      clearTimeout(timeout);
       resolve(dom);
     });
   });
