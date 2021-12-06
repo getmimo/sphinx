@@ -9,7 +9,7 @@ async function domLoaded(file) {
     runScripts: 'dangerously',
   });
   return await new Promise((resolve, reject) => {
-    dom.window.document.addEventListener('DOMContentLoaded', () => {
+    dom.window.document.addEventListener('load', () => {
       resolve(dom);
     });
   });
