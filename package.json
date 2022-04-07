@@ -10,6 +10,12 @@
     "test-watch": "tsc && jest --watch",
     "test-testrunner-example": "node ./testrunner-examples/test.js",
     "test-falcon-2": "node ./testrunner-examples/test-falcon-2.js",
+    "1": "node ./testrunner-examples/test-falcon-1.js",
+    "3": "node ./testrunner-examples/test-falcon-3.js",
+    "4": "node ./testrunner-examples/test-falcon-4.js",
+    "5": "node ./testrunner-examples/test-falcon-5.js",
+    "6": "node ./testrunner-examples/test-falcon-6.js",
+    "7": "node ./testrunner-examples/test-falcon-7.js",
     "build": "tsc && mkdir -p dist/falcon && mkdir -p dist/async && cp ./falcon/index.js dist/falcon/index.js && cp ./async/index.js dist/async/index.js",
     "test-verbose": "tsc && jest --verbose"
   },

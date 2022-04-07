@@ -1,17 +1,57 @@
 const { test, isEqual, end } = require('../falcon');
 var rewire = require('rewire');
+var chai = require('chai');
+chai.should();
+chai.use(require('chai-dom'));
+chai.use(require('chai-things'));
+let expect = chai.expect;
 
-let jsCode = rewire('./script.js');
-reverse = jsCode.__get__('reverse');
+async function start() {
+  await test('There might be misspelled variables in the code, variables used without being declared, or other syntactical errors.', async () => {
+    try {
+      rewire('./script.js');
+    } catch (error) {
+      throw new Error('code has syntactical errors');
+    }
+  });
+  await test('There is a variable called order displaying in the console', () => {
+    let output = [];
+    console.log = (input) => {
+      output.push(input);
+    };
 
-test([1,2,3,4,5],'Test 1', input => {
-  let result = reverse(input);
-  isEqual(result, [5,4,3,2,1])
-});
+    let jsCode = rewire('./script.js');
+    let italianMenu = jsCode.__get__('italianFood');
 
-test([8,10,2,27],'Test 2', input => {
-  let result = reverse(input);
-  isEqual(result, [27,2,10,8])
-});
+    expect(output.includes(italianMenu[0].mealName)).to.equal(true);
+  });
+  // need to get this to work
+  await test('There is a variable called orderPossible displaying in the console', () => {
+    let output = [];
+    console.log = (input) => {
+      output.push(input);
+    };
 
-end();
+    let jsCode = rewire('./script.js');
+    let orderPossible = jsCode.__get__('createSummary').orderPossible;
+    console.error(orderPossible);
+
+    // both of these don't work
+    //expect(output.includes(orderPossible)).to.equal(true);
+    //expect(output[1]).to.equal(orderPossible);
+  });
+  // await test('There is a variable called error message displaying in the console', () => {
+  //   let output = [];
+  //   console.log = (input) => {
+  //     output.push(input);
+  //   };
+
+  //   let jsCode = rewire('./script.js');
+  //   let errorMessage = jsCode.__get__('errorMessage');
+  //   // Also doesn't work
+  //   //expect(output.includes(errorMessage)).to.equal(true);
+  //   //expect(output[2]).to.equal(errorMessage)
+  // });
+  end();
+}
+start();
