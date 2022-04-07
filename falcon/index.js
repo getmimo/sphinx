@@ -13,12 +13,16 @@ const beforeEach = (cb) => {
 
 // Keeps some counters used to print the summary after the execution of a test suite is completed
 const summary = { success: true, testResults: [] };
-let tempResult = { logs: '' };
+let tempResult = { logs: '', errorLogs: [] };
 
 let consoleLogCache = console.log;
 console.log = (input) => {
   tempResult.logs =
     tempResult.logs === '' ? input + '' : tempResult.logs + '\n' + input;
+};
+
+console.error = (input) => {
+  tempResult.errorLogs.push({ message: input });
 };
 
 /**
@@ -42,7 +46,7 @@ const test = async (param1, param2, param3) => {
     cb = param3;
   }
   runEveryBeforeEach();
-  tempResult = { logs: '' };
+  tempResult = { logs: '', errorLogs: [] };
   tempResult.input = input;
   try {
     if (cb[Symbol.toStringTag] === 'AsyncFunction') {
