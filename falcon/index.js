@@ -13,7 +13,7 @@ const beforeEach = (cb) => {
 
 // Keeps some counters used to print the summary after the execution of a test suite is completed
 const summary = { success: true, testResults: [] };
-let tempResult = { logs: '', errorLogs: [] };
+let tempResult = { logs: '', debugLogs: [] };
 
 let consoleLogCache = console.log;
 console.log = (input) => {
@@ -21,9 +21,14 @@ console.log = (input) => {
     tempResult.logs === '' ? input + '' : tempResult.logs + '\n' + input;
 };
 
-console.error = (input) => {
-  tempResult.errorLogs.push({ message: input });
-};
+/**
+ * Custom logging function
+ *
+ * @param {*} input
+ */
+function mimoDebug(input) {
+  tempResult.debugLogs.push({ message: input });
+}
 
 /**
 We are overloading this function. It can be used with either 2 or 3 params
@@ -46,7 +51,6 @@ const test = async (param1, param2, param3) => {
     cb = param3;
   }
   runEveryBeforeEach();
-  tempResult = { logs: '', errorLogs: [] };
   tempResult.input = input;
   try {
     if (cb[Symbol.toStringTag] === 'AsyncFunction') {
@@ -59,7 +63,6 @@ const test = async (param1, param2, param3) => {
       passed: true,
       result: tempResult,
     });
-    tempResult = {};
   } catch (e) {
     summary.success = false;
     summary.testResults.push({
@@ -68,8 +71,8 @@ const test = async (param1, param2, param3) => {
       result: tempResult,
       error: e.message,
     });
-    tempResult = {};
   }
+  tempResult = { logs: '', debugLogs: [] };
 };
 
 // Prints the test summary and finishes the process with the appropriate exit code
@@ -96,4 +99,5 @@ module.exports = {
   beforeEach,
   summary,
   isEqual,
+  mimoDebug,
 };
